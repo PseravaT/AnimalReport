@@ -14,7 +14,7 @@ public class Denuncia extends Formulario {
     @Enumerated(EnumType.STRING)
     private EnumNivelUrgencia urgencia;
 
-    @Column(nullable = true)
+    @JoinColumn(nullable = true)
     @ManyToOne
     private Organizacao organizacaoResponsavel;
 

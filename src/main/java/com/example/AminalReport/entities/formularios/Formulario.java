@@ -25,7 +25,7 @@ public class Formulario {
     @Lob
     private String descricao;
 
-    @Column(name = "usuario_criaddor_id", nullable = false)
+    @JoinColumn(name = "usuario_criaddor_id", nullable = false)
     @ManyToOne
     private Usuario usuarioCriador;
 
