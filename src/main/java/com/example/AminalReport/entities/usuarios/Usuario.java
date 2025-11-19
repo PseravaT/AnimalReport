@@ -2,6 +2,8 @@ package com.example.AminalReport.entities.usuarios;
 
 import com.example.AminalReport.entities.enums.EnumStatusUsuario;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -12,7 +14,6 @@ import java.util.Collections;
 @Entity(name = "Usuarios")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "tipo", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("ADMIN")
 public class Usuario implements UserDetails {
 
     @Id
@@ -34,12 +35,14 @@ public class Usuario implements UserDetails {
     @Column
     private LocalDateTime dataCadastro;
 
+
     @Column
     @Enumerated(EnumType.STRING)
     private EnumStatusUsuario statusUsuario;
 
-    @Column(columnDefinition = "BYTEA")
+    @Column(columnDefinition = "BYTEA") // Pode manter se quiser garantir a DDL
     @Lob
+    @JdbcTypeCode(SqlTypes.BINARY)      // <--- ISSO RESOLVE O ERRO DE OID
     private byte[] foto;
 
     //Construtores

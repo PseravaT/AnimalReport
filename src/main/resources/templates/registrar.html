@@ -14,7 +14,7 @@
 <div class="login-card">
     <div class="nav-cadastro">
         <img class="logo_img" th:src="@{/images/image-removebg-preview.png}" alt="" />
-        <h2>Animal <br>Report</h2>
+        <h2>Animal Report</h2>
     </div>
     <h2 class="text-center mb-4">Registrar</h2>
 
@@ -132,6 +132,17 @@
 
         // Se você também quiser uma máscara de CPF:
         $('#cpf').mask('000.000.000-00', {reverse: true});
+
+        $('form').on('submit', function(e) {
+            var senha = $('#senha').val();
+            var confirmacao = $('#confirmar_senha').val();
+
+            // Verifica se as senhas são diferentes
+            if (senha !== confirmacao) {
+                e.preventDefault(); // Impede o envio do formulário
+                alert("As senhas não conferem. Por favor, verifique.");
+            }
+        });
     });
 </script>
 

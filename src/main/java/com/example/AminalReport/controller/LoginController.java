@@ -1,5 +1,6 @@
 package com.example.AminalReport.controller;
 
+import com.example.AminalReport.entities.enums.EnumStatusUsuario;
 import com.example.AminalReport.entities.usuarios.Comum;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.service.UserService;
@@ -94,16 +95,25 @@ public class LoginController {
                             @RequestParam String email,
                             @RequestParam String telefone,
                             @RequestParam String cpf,
-                            @RequestParam String senha) {
+                            @RequestParam String senha,
+                            @RequestParam String confirmar_senha) {
 
         // Cria e preenche o objeto Usuario
         Comum usuario = new Comum();
         usuario.setNome(nome);
         usuario.setEmail(email);
         usuario.setTelefone(telefone);
-        usuario.setCpf(cpf);
+        usuario.setCpf(cpf.replaceAll("[^0-9]", ""));
         usuario.setSenha(senha);
-        // Garante que novos usuários sejam criados com o perfil padrão, se não estiver definido na Entidade.
+        usuario.setDataCadastro(java.time.LocalDateTime.now());
+        usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);
+
+
+
+        if (!senha.equals(confirmar_senha)) {
+            // Redireciona de volta para o registro com um parâmetro de erro
+            return "redirect:/registrar?error=senha_diferente";
+        }
         // usuario.setPerfil("ROLE_USER");
 
         // Salva (e criptografa a senha)

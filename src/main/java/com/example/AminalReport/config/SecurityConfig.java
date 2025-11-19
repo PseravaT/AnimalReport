@@ -45,11 +45,11 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                 )
 
-                // 5. Tratamento de Exceções
-                .exceptionHandling(exception -> exception
-                        // Redireciona usuários não autenticados para a página de login
-                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/entrar?loginRequired=true"))
-                )
+//                // 5. Tratamento de Exceções
+//                .exceptionHandling(exception -> exception
+//                        // Redireciona usuários não autenticados para a página de login
+//                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/entrar?loginRequired=true"))
+//                )
 
                 // Constrói e retorna o SecurityFilterChain
                 .build();
