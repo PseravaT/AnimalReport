@@ -1,7 +1,9 @@
 package com.example.AminalReport.controller;
 
 import com.example.AminalReport.entities.enums.EnumStatusUsuario;
+import com.example.AminalReport.entities.enums.EnumTipoOrg;
 import com.example.AminalReport.entities.usuarios.Comum;
+import com.example.AminalReport.entities.usuarios.Organizacao;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
 
 import java.util.List;
+
+import static java.util.regex.Pattern.matches;
 
 @Controller
 public class LoginController {
@@ -81,6 +85,9 @@ public class LoginController {
             return "redirect:/admin/dashboard";
         }
 
+        else if ("ORGANIZAÇÃO".equals(perfilDoUsuario))
+            return "redirect:/homeOrg";
+
         else
             // Redireciona para a home page, mapeada pelo HomeController
             return "redirect:/home";
@@ -99,8 +106,7 @@ public class LoginController {
                             @RequestParam String telefone,
                             @RequestParam String cpf,
                             @RequestParam String senha,
-                            @RequestParam String confirmar_senha,
-                            Model model) {
+                            @RequestParam String confirmar_senha) {
 
         // Cria e preenche o objeto Usuario
         Comum usuario = new Comum();
@@ -122,8 +128,7 @@ public class LoginController {
             e.printStackTrace();
         }
 
-
-        if (!senha.equals(confirmar_senha)) {
+        if (senha.length() < 8 || senha.matches(".*\\d.*") ||!senha.equals(confirmar_senha)) {
             // Redireciona de volta para o registro com um parâmetro de erro
             return "redirect:/registrar?error=senha_diferente";
         }
@@ -133,6 +138,55 @@ public class LoginController {
         userservice.saveUser(usuario);
 
         // Redireciona para a página de login para que o novo usuário possa acessar
+        return "redirect:/entrar";
+    }
+
+
+    @GetMapping("/registrarOrg")
+    public String registrarOrg() {
+        return "registrarOrg";
+    }
+
+    @PostMapping("/registrarOrg")
+    public String registrarOrg(@RequestParam String nome,
+                               @RequestParam String email,
+                               @RequestParam String telefone,
+                               @RequestParam String cnpj,
+                               @RequestParam String inscricaoEstadual,
+                               @RequestParam EnumTipoOrg tipoOrg,
+                               @RequestParam String senha,
+                               @RequestParam String confirmar_senha
+                               ) {
+        Organizacao usuario = new Organizacao();
+        usuario.setNome(nome);
+        usuario.setEmail(email);
+        usuario.setTelefone(telefone);
+        usuario.setCnpj(cnpj.replaceAll("[^0-9]", ""));
+        usuario.setInscricaoEstadual(inscricaoEstadual.replaceAll("[^0-9]", ""));
+        usuario.setTipoOrg(tipoOrg);
+        usuario.setSenha(senha);
+        usuario.setDataCadastro(java.time.LocalDateTime.now());
+        usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);
+        try {
+            java.io.InputStream is = getClass().getResourceAsStream("/static/images/perfilPadrao.jpg");
+
+            if (is != null){
+                usuario.setFoto(is.readAllBytes());
+                is.close();
+            }
+        } catch (java.io.IOException e){
+            e.printStackTrace();
+        }
+
+        if (!senha.equals(confirmar_senha)) {
+            // Redireciona de volta para o registro com um parâmetro de erro
+            return "redirect:/registrar?error=senha_diferente";
+        }
+
+        // Salva (e criptografa a senha)
+        userservice.saveUser(usuario);
+
+
         return "redirect:/entrar";
     }
 }
