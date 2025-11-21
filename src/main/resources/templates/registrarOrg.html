@@ -22,13 +22,13 @@
     <h2 class="text-center mb-4">Registrar - Oganização</h2>
 
 <!--    Botao de mudança de Rota para cadastro    -->
-    <div>
+    <div class="d-flex justify-content-center mb-4">
         <a th:href="@{/registrar}"
-           th:classappend="${#httpServletRequest.requestURI == '/registrar'} ? 'active' : ''"
+           th:classappend="${requestURI == '/registrar'} ? 'active' : ''"
            class="btn btn-outline-primary" role="button">Usuário</a>
 
         <a th:href="@{/registrarOrg}"
-           th:classappend="${#httpServletRequest.requestURI == '/registrarOrg'} ? 'active' : ''"
+           th:classappend="${requestURI == '/registrarOrg'} ? 'active' : ''"
            class="btn btn-outline-primary" role="button">Organização</a>
     </div>
 
@@ -63,11 +63,12 @@
         <div class="mb-3">
             <label for="tipoOrg" class="form-label">Tipo de Organização</label>
 
-            <select class="form-select" id="tipoOrg" th:field="@{tipoOrg}">
+            <select class="form-select" id="tipoOrg" name="tipoOrg" required>
                 <option value="" selected>Selecione o tipo...</option>
 
                 <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumTipoOrg).values()}"
-                        th:value="${tipo}" th:text="${tipo}">
+                        th:value="${tipo.descricao}"
+                        th:text="${tipo.descricao}">
                 </option>
             </select>
         </div>
@@ -103,7 +104,7 @@
 
 <!--    Footer do registro   -->
     <div>
-        <div class="text-center my-4 w-75">
+        <div class="text-center my-4 w-0">
             <span class="d-inline-block px-3" style="color: #666;">────────</span>
             <span style="color: var(--cor-texto);">ou</span>
             <span class="d-inline-block px-3" style="color: #666;">────────</span>

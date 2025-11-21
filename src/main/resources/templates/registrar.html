@@ -19,6 +19,18 @@
     </div>
     <h2 class="text-center mb-4">Registrar</h2>
 
+
+    <!--    Botao de mudança de Rota para cadastro    -->
+    <div class="d-flex justify-content-center mb-4">
+        <a th:href="@{/registrar}"
+           th:classappend="${requestURI == '/registrar'} ? 'active' : ''"
+           class="btn btn-outline-primary" role="button">Usuário</a>
+
+        <a th:href="@{/registrarOrg}"
+           th:classappend="${requestURI == '/registrarOrg'} ? 'active' : ''"
+           class="btn btn-outline-primary" role="button">Organização</a>
+    </div>
+
     <form class="form_login" th:action="@{/registrar}" method="POST">
 
         <div class="input-group mb-3">
@@ -66,10 +78,10 @@
 
     </form>
 
-    <div class="text-center my-4 w-75">
-        <span class="d-inline-block px-3" style="color: #666;">────────</span>
+    <div class="text-center my-4 w-70">
+        <span class="d-inline-block px-3" style="color: #666;">───────</span>
         <span style="color: var(--cor-texto);">ou</span>
-        <span class="d-inline-block px-3" style="color: #666;">────────</span>
+        <span class="d-inline-block px-3" style="color: #666;">───────</span>
     </div>
 
     <div class="d-flex justify-content-center mt-4">

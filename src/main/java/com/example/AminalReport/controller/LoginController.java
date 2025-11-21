@@ -95,7 +95,7 @@ public class LoginController {
 
     // Exibe a página de registro.
     @GetMapping("/registrar")
-    public String registrar() {
+    public String registrar( ) {
         return "registrar";
     }
 
@@ -128,11 +128,10 @@ public class LoginController {
             e.printStackTrace();
         }
 
-        if (senha.length() < 8 || senha.matches(".*\\d.*") ||!senha.equals(confirmar_senha)) {
+        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
             // Redireciona de volta para o registro com um parâmetro de erro
             return "redirect:/registrar?error=senha_diferente";
         }
-        // usuario.setPerfil("ROLE_USER");
 
         // Salva (e criptografa a senha)
         userservice.saveUser(usuario);
@@ -143,7 +142,8 @@ public class LoginController {
 
 
     @GetMapping("/registrarOrg")
-    public String registrarOrg() {
+    public String registrarOrg(HttpServletRequest request, Model model) {
+        model.addAttribute("requestURI", request.getRequestURI());
         return "registrarOrg";
     }
 
@@ -178,10 +178,11 @@ public class LoginController {
             e.printStackTrace();
         }
 
-        if (!senha.equals(confirmar_senha)) {
+        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
             // Redireciona de volta para o registro com um parâmetro de erro
             return "redirect:/registrar?error=senha_diferente";
         }
+
 
         // Salva (e criptografa a senha)
         userservice.saveUser(usuario);
