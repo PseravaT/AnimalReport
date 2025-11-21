@@ -14,6 +14,24 @@
 <body class="body_login">
 <div class="login-card">
     <h2>Animal Report</h2>
+    <div th:if="${param.error}">
+        <div class="alert alert-danger text-center">
+            E-mail ou senha inválidos!
+        </div>
+    </div>
+
+    <div th:if="${param.loginRequired}">
+        <div class="alert alert-warning text-center">
+            Você precisa estar logado para acessar esta página.
+        </div>
+    </div>
+
+    <div th:if="${param.logoutSuccess}">
+        <div class="alert alert-success text-center">
+            Logout realizado com sucesso!
+        </div>
+    </div>
+
     <img class="logo_img" th:src="@{/images/image-removebg-preview.png}" alt=" logo base"/>
     <h2 class="text-center mb-4">Entrar</h2>
     <form class="form_login" action="/entrar" method="POST">

@@ -21,8 +21,8 @@ public class Denuncia extends Formulario {
     //Construtores
     public Denuncia () {}
 
-    public Denuncia(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String complemento, EnumNivelUrgencia urgencia, Organizacao organizacaoResponsavel) {
-        super(foto, tipoAnimal, descricao, usuarioCriador, cep, rua, bairro, municipio, estado, complemento);
+    public Denuncia(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String complemento, EnumNivelUrgencia urgencia, Organizacao organizacaoResponsavel, String contato) {
+        super(foto, tipoAnimal, descricao, usuarioCriador, cep, rua, bairro, municipio, estado, complemento, contato);
         this.urgencia = urgencia;
         this.organizacaoResponsavel = organizacaoResponsavel;
     }

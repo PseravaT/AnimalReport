@@ -2,6 +2,7 @@ package com.example.AminalReport.service;
 
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.repository.usuarios.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +31,7 @@ public class UserService {
     // buscar um usuário pelo email (lógica de login ou verificação)
     public Usuario loadUserByEmail(String email) {
         // Chama o metodo customizado que definimos no UserRepository - query de pegar todos os dados pelo email;
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Usuario não encontrado"));
     }
 
     // Verificar se a senha digitada bate senha criptografada.
