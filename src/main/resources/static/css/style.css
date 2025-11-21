@@ -36,6 +36,13 @@ body {
     padding-right: 10px;
 }
 
+.nav-cadastro{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
 .body_login {
     min-height: 100vh;
     display: flex;
@@ -109,7 +116,7 @@ hr {
 }
 
 .d-flex {
-    gap: 30px;
+    gap: 5px;
 }
 
 .msg_botton{
