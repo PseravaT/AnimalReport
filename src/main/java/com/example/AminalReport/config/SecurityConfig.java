@@ -32,9 +32,12 @@ public class SecurityConfig {
 
                 // 3. Configuração de Formulário de Login
                 .formLogin(form -> form
-                        .loginPage("/entrar") // URL para exibir o formulário de login
-                        .loginProcessingUrl("/entrar") // URL padrão onde o Spring processa a submissão (POST)
-                        .defaultSuccessUrl("/", true) // Redireciona para a raiz após o sucesso
+                        .loginPage("/entrar")
+                        .loginProcessingUrl("/entrar")
+                        .usernameParameter("email")
+                        .passwordParameter("senha")
+                        .failureUrl("/entrar?error=true")
+                        .defaultSuccessUrl("/home", true)
                         .permitAll()
                 )
 

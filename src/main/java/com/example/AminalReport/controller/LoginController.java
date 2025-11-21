@@ -10,12 +10,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -79,8 +81,9 @@ public class LoginController {
             return "redirect:/admin/dashboard";
         }
 
-        // Redireciona para a home page, mapeada pelo HomeController
-        return "redirect:/home";
+        else
+            // Redireciona para a home page, mapeada pelo HomeController
+            return "redirect:/home";
     }
 
     // Exibe a página de registro.
@@ -96,7 +99,8 @@ public class LoginController {
                             @RequestParam String telefone,
                             @RequestParam String cpf,
                             @RequestParam String senha,
-                            @RequestParam String confirmar_senha) {
+                            @RequestParam String confirmar_senha,
+                            Model model) {
 
         // Cria e preenche o objeto Usuario
         Comum usuario = new Comum();
@@ -107,7 +111,16 @@ public class LoginController {
         usuario.setSenha(senha);
         usuario.setDataCadastro(java.time.LocalDateTime.now());
         usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);
+        try {
+            java.io.InputStream is = getClass().getResourceAsStream("/static/images/perfilPadrao.jpg");
 
+            if (is != null){
+                usuario.setFoto(is.readAllBytes());
+                is.close();
+            }
+        } catch (java.io.IOException e){
+            e.printStackTrace();
+        }
 
 
         if (!senha.equals(confirmar_senha)) {
@@ -120,6 +133,6 @@ public class LoginController {
         userservice.saveUser(usuario);
 
         // Redireciona para a página de login para que o novo usuário possa acessar
-        return "redirect:/";
+        return "redirect:/entrar";
     }
 }

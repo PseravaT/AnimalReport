@@ -29,6 +29,9 @@ public class Formulario {
     @ManyToOne
     private Usuario usuarioCriador;
 
+    @Column
+    private String contato;
+
     @Column(nullable = false)
     private String cep;
 
@@ -50,7 +53,7 @@ public class Formulario {
     //Construtores
     public Formulario () {}
 
-    public Formulario (byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String complemento) {
+    public Formulario (byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String complemento, String contato) {
         this.foto = foto;
         this.tipoAnimal = tipoAnimal;
         this.descricao = descricao;
@@ -61,6 +64,7 @@ public class Formulario {
         this.municipio = municipio;
         this.estado = estado;
         this.complemento = complemento;
+        this.contato = contato;
     }
 
 
@@ -149,4 +153,8 @@ public class Formulario {
     public void setComplemento(String complemento) {
         this.complemento = complemento;
     }
+
+    public String getContato() { return contato; }
+
+    public void setContato (String contato) {this.contato = contato; }
 }

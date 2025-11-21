@@ -19,8 +19,8 @@ public class Adocao extends Formulario{
     //Construtores
     public Adocao () {}
 
-    public Adocao(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String complemento, String nomeAnimal, Integer idadeEstimada) {
-        super(foto, tipoAnimal, descricao, usuarioCriador, cep, rua, bairro, municipio, estado, complemento);
+    public Adocao(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String complemento, String nomeAnimal, Integer idadeEstimada,String contato) {
+        super(foto, tipoAnimal, descricao, usuarioCriador, cep, rua, bairro, municipio, estado, complemento,contato);
         this.nomeAnimal = nomeAnimal;
         this.idadeEstimada = idadeEstimada;
     }
