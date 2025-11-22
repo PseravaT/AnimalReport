@@ -269,3 +269,84 @@ hr {
     background-color: red;
     color: var(--cor-texto);
 }
+
+.denuncia-container{
+    margin-top: 40px;
+    rgba(0, 0, 0, 0.0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.text-denuncia {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--cor-terciaria);
+    padding-bottom: .5rem;
+    color: var(--cor-terciaria);
+    width: 100%;
+    text-align: center;
+}
+
+/* Estilização Específica do Modal de Termos */
+.modal-termos-custom .modal-content {
+    background-color: var(--cor-primaria); /* Fundo azul escuro */
+    border: 1px solid var(--cor-terciaria); /* Borda fina verde limão */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra suave */
+    color: var(--cor-texto);
+}
+
+/* Título do Modal */
+.modal-termos-custom .modal-title {
+    color: var(--cor-terciaria); /* Verde limão */
+    border-bottom: 2px solid var(--cor-terciaria);
+    padding-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+/* Caixa de Texto Interna */
+.modal-termos-custom .termos-texto {
+    background-color: rgba(0, 0, 0, 0.2); /* Um pouco mais escuro que o fundo */
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: justify; /* Texto justificado fica mais formal */
+    padding-right: 10px; /* Espaço para a scrollbar não colar no texto */
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+
+.modal-termos-custom .termos-texto::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-termos-custom .termos-texto::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+}
+
+.modal-termos-custom .termos-texto::-webkit-scrollbar-thumb {
+    background-color: var(--cor-secundaria); /* Azul médio */
+    border-radius: 4px;
+}
+
+.modal-termos-custom .termos-texto::-webkit-scrollbar-thumb:hover {
+    background-color: var(--cor-terciaria);
+}
+
+/* Estilo da Caixa de Upload */
+.upload-box {
+    height: 250px;              /* Altura fixa para parecer uma foto */
+    background-color: #343a40;  /* Cinza escuro (destaca do fundo preto) */
+    border: 2px dashed #6c757d; /* Borda pontilhada (indica área de arrastar/clicar) */
+    cursor: pointer;            /* Mostra a mãozinha do mouse */
+    transition: background-color 0.3s;
+}
+
+.upload-box:hover {
+    background-color: #495057; /* Fica mais claro quando passa o mouse */
+    border-color: #a8d060;     /* Borda fica verde (sua cor de destaque) */
+}
+
+.upload-box i {
+    color: #adb5bd; /* Cor do ícone da câmera */
+}

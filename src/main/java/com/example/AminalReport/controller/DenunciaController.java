@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @Controller
 @RequestMapping
@@ -26,7 +29,7 @@ public class DenunciaController {
 
     @PostMapping("/denuncia")
     public String denuncia(
-            @RequestParam byte[] foto,
+            @RequestParam MultipartFile foto,
             @RequestParam EnumTipoAnimal tipoAnimal,
             @RequestParam String descricao,
             @RequestParam EnumNivelUrgencia nivelUrgencia,
@@ -35,11 +38,17 @@ public class DenunciaController {
             @RequestParam String municipio,
             @RequestParam String bairro,
             @RequestParam String rua,
-            @RequestParam String pontoRef){
+            @RequestParam String pontoRef) throws IOException {
 
         Denuncia denuncia = new Denuncia();
 
-        denuncia.setFoto(foto);
+        byte[] fotoBytes = null;
+
+        if (!foto.isEmpty()) {
+            fotoBytes = foto.getBytes();
+        }
+
+        denuncia.setFoto(fotoBytes);
         denuncia.setTipoAnimal(tipoAnimal);
         denuncia.setDescricao(descricao);
         denuncia.setUrgencia(nivelUrgencia);
@@ -69,7 +78,10 @@ public class DenunciaController {
 
         denuncia.setFoto(foto);
         denuncia.setTipoAnimal(tipoAnimal);
-        denuncia.setDescricao(descricao);
+        denuncia.setDescricao(descricao) ;
+        denuncia.setBairro("URGÊNCIA");
+        denuncia.setEstado("URGÊNCIA");
+        denuncia.setMunicipio("URGÊNCIA");
         denuncia.setUrgencia(EnumNivelUrgencia.URGENTE);
         denuncia.setContato(contato);
 
