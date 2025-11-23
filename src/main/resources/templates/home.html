@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="pt-br"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>AR - Homepage</title>
@@ -10,7 +10,6 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<!-- Carrossel-->
 <div>
     <h1 class="titulo-menu" style="padding-top:30px;background-color:rgba(0, 0, 0, 0.5); padding-bottom: 20px;">Central
         de Adoções</h1>
@@ -74,29 +73,28 @@
 </div>
 
 
-<!-- Tabela de Denuncias Recentes -->
-<div class="container mt-5">
+<div class="container mt-5" th:if="${usuarioLogado != null}">
     <h1 class="titulo-menu">Denúncias Recentes</h1>
     <hr>
     <div class="tabela-fixa-container">
-        <!--    Se não tiver nenhum dado na tabela de denuncias, exibe uma mensagem-->
         <div th:if="${denuncias.isEmpty()}" class="alert alert-secondary text-center">
             Nenhuma denúncia registrada ainda.
         </div>
 
-        <!--    Se tiver dados na tabela de denuncias, exibe uma tabela-->
         <table th:unless="${denuncias.isEmpty()}" class="table table-dark table-striped mb-0 align-middle">
             <thead>
             <tr>
                 <th style="width: 10%">Estado</th>
                 <th style="width: 20%">Cidade</th> <th style="width: 20%">Bairro</th>
                 <th style="width: 15%">Tipo</th>    <th style="width: 15%">Urgência</th>
-                <th style="width: 20%">Ação</th>
+                <th style="width: 20%"
+                    th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Organizacao'}">
+                    Ação
+                </th>
             </tr>
             </thead>
             <tbody>
 
-            <!-- para cada denuncia na lista, exibe uma linha na tabela      -->
             <tr th:each="denuncia : ${denuncias}">
 
                 <td style="width: 10%" th:text="${denuncia.estado}"></td>
@@ -117,7 +115,7 @@
                     </span>
                 </td>
 
-                <td style="width: 20%">
+                <td style="width: 20%" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Organizacao'}">
                     <a th:href="@{/denuncias/detalhes/{id}(id=${denuncia.id})}" class="btn btn-sm btn-primary">
                         Ver mais
                     </a>
@@ -128,14 +126,18 @@
     </div>
 </div>
 
-<!--Botões de denuncia-->
 <div class="btn-menu">
-    <div class="botao-padrão">
-        <button  class="btnpad">Status</button>
-        <button  class="btnpad" th:action="@{/denuncia.html}" >Denunciar</button>
+    <div class="botao-padrão" th:if="${usuarioLogado != null}">
+        <button class="btnpad">Status</button>
+        <a th:href="@{/denuncia}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;">
+            Denunciar
+        </a>
     </div>
+
     <div class="botao-emergencia">
-        <button  class="btnemergencia">Emergência</button>
+        <a th:href="@{/denuncia/urgente}" class="btnemergencia" style="text-decoration: none; text-align: center; display: inline-block;">
+            Emergência
+        </a>
     </div>
 </div>
 </body>

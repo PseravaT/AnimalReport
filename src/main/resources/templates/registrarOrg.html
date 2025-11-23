@@ -67,7 +67,7 @@
                 <option value="" selected>Selecione o tipo...</option>
 
                 <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumTipoOrg).values()}"
-                        th:value="${tipo.descricao}"
+                        th:value="${tipo}"
                         th:text="${tipo.descricao}">
                 </option>
             </select>

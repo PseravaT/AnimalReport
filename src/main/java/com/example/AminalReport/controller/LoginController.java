@@ -128,10 +128,10 @@ public class LoginController {
             e.printStackTrace();
         }
 
-        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
-            // Redireciona de volta para o registro com um parâmetro de erro
-            return "redirect:/registrar?error=senha_diferente";
-        }
+//        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
+//            // Redireciona de volta para o registro com um parâmetro de erro
+//            return "redirect:/registrar?error=senha_diferente";
+//        }
 
         // Salva (e criptografa a senha)
         userservice.saveUser(usuario);
@@ -177,11 +177,11 @@ public class LoginController {
         } catch (java.io.IOException e){
             e.printStackTrace();
         }
-
-        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
-            // Redireciona de volta para o registro com um parâmetro de erro
-            return "redirect:/registrar?error=senha_diferente";
-        }
+// Verifica se a senha tem mais de 8 caracteres e possui uma letra maiúscula
+//        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
+//            // Redireciona de volta para o registro com um parâmetro de erro
+//            return "redirect:/registrar?error=senha_diferente";
+//        }
 
 
         // Salva (e criptografa a senha)

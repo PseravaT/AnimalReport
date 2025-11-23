@@ -27,7 +27,7 @@ public class HomeController {
     @GetMapping({"/", "/home"})
     public String home(Model model, Principal principal){
 
-
+        // 1. Carregar dados do usuário logado (se houver)
         if (principal != null){
             String email = principal.getName();
             Usuario usuario = userRepository.findByEmail(email).orElse(null);
@@ -35,18 +35,18 @@ public class HomeController {
             if (usuario != null){
                 model.addAttribute("usuarioLogado", usuario);
 
+                // Lógica da Foto de Perfil
                 if (usuario.getFoto() != null && usuario.getFoto().length > 0){
                     String imagem = Base64.getEncoder().encodeToString(usuario.getFoto());
                     model.addAttribute("fotoPerfil", "data:image/jpeg;base64," + imagem);
-                } else{
+                } else {
                     model.addAttribute("fotoPerfil", "/images/perfilPadrao.jpg");
                 }
             }
         }
 
+        // 2. Carregar lista de denúncias ordenadas
         List<Denuncia> listaDenuncias = denunciaRepository.findAllByOrderByIdDesc();
-
-        // enviar para o HTML
         model.addAttribute("denuncias", listaDenuncias);
 
         return "home";
