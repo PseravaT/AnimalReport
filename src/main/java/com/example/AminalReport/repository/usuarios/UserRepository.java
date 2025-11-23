@@ -8,6 +8,7 @@ import java.util.Optional;
 
 // Repositório para a entidade Usuario
 public interface UserRepository extends JpaRepository <Usuario,Long>{
+
     // O Spring gera o SQL: SELECT * FROM Usuario WHERE email = ?
     Optional<Usuario> findByEmail(String email);
 

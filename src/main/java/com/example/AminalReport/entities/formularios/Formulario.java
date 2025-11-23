@@ -3,6 +3,9 @@ package com.example.AminalReport.entities.formularios;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -15,36 +18,36 @@ public class Formulario {
 
     @Column(columnDefinition = "BYTEA")
     @Lob
+    @JdbcTypeCode(SqlTypes.BINARY)
     private byte[] foto;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EnumTipoAnimal tipoAnimal;
 
-    @Column
-    @Lob
+    @Column (columnDefinition = "TEXT")
     private String descricao;
 
-    @JoinColumn(name = "usuario_criaddor_id", nullable = false)
+    @JoinColumn(name = "usuario_criaddor_id")
     @ManyToOne
     private Usuario usuarioCriador;
 
     @Column
     private String contato;
 
-    @Column(nullable = false)
+    @Column
     private String cep;
 
     @Column
     private String rua;
 
-    @Column
+    @Column (nullable = false)
     private String bairro;
 
-    @Column
+    @Column (nullable = false)
     private String municipio;
 
-    @Column
+    @Column (nullable = false)
     private String estado;
 
     @Column

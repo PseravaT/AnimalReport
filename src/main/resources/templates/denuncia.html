@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AR - Homepage</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="denuncia-container mx-auto" style="max-width: 500px;">
+
+    <h2 class="text-denuncia">
+        Denúncia
+    </h2>
+
+    <!--    Formulário de cadastro de Denúncia   -->
+
+    <form th:action="@{/denuncia}" method="POST" enctype="multipart/form-data"> >
+        <!--  UPLOAD DE FOTOS !-->
+        <div class="upload-box rounded mb-3 d-flex flex-column align-items-center justify-content-center text-secondary position-relative overflow-hidden" id="previewBox">
+
+            <div id="uploadPlaceholder" class="text-center">
+                <i class="bi bi-image" style="font-size: 4rem;"></i>
+                <p class="m-0 small">Toque para adicionar foto</p>
+            </div>
+
+            <img id="imagePreview" src="" alt="Preview" style="display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+
+            <input type="file" class="d-none" id="foto" name="foto" accept="image/*">
+        </div>
+
+        <!--        ENUM ANIMAIS    -->
+        <div class="mb-3">
+            <label for="tipoAnimal" class="form-label" style="color: #ffffff !important;">Tipo de Animais</label>
+
+            <select class="form-select" id="tipoAnimal" name="tipoAnimal" required>
+                <option value="" selected>Selecione o tipo...</option>
+
+                <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumTipoAnimal).values()}"
+                        th:value="${tipo}"
+                        th:text="${tipo.descricao}">
+                </option>
+            </select>
+        </div>
+
+<!--        Descrição -->
+        <div class="mb-3">
+            <textarea class="form-control" id="descricao"  name="descricao" rows="3" placeholder="Descrição"></textarea>
+        </div>
+
+        <!--        ENUM ESTIMATIVA DE RISCO    -->
+        <div class="mb-3">
+            <label for="nivelUrgencia" class="form-label" style="color: #ffffff !important;">Estimativa de Risco</label>
+
+            <select class="form-select" id="nivelUrgencia" name="nivelUrgencia" required>
+                <option value="" selected>Selecione o tipo...</option>
+
+                <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumNivelUrgencia).values()}"
+                        th:value="${tipo}"
+                        th:text="${tipo.descricao}">
+                </option>
+            </select>
+        </div>
+
+
+        <h4 class="text-denuncia">
+            Endereço
+        </h4>
+
+<!--        ENDEREÇO    -->
+        <div>
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="cep" id="cep" placeholder="CEP" maxlength="9" required>
+                        <button class="btn btn-outline-secondary bg-dark text-white" type="button" id="btnBuscarCep">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" name="estado" id="uf" placeholder="Estado" required>
+                </div>
+            </div>
+
+            <div class="row g-2 mb-3">
+                <div class="col-6">
+                    <input type="text" class="form-control" name="municipio" id="localidade" placeholder="Município" required>
+                </div>
+                <div class="col-6">
+                    <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Bairro" required>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <input type="text" class="form-control" name="rua" id="logradouro" placeholder="Rua" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <textarea class="form-control" id="pontoRef"  name="pontoRef" rows="3" placeholder="ponto de Referência"></textarea>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="checkTermos">
+            <label class="form-check-label text-light" for="checkTermos">
+                Concordo que li os
+                <a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" data-bs-toggle="modal" data-bs-target="#modalTermos">
+                    Termos da denúncia
+                </a>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 fw-bold py-2 rounded-5 mb-5" id="btnSubmit" disabled>
+            Denunciar
+        </button>
+
+    </form>
+</div>
+
+<div class="modal fade modal-termos-custom" id="modalTermos" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content border-0 rounded-4 overflow-hidden">
+
+        <div class="d-flex justify-content-end p-3 pb-0">
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body px-4 pb-4 pt-0">
+            <div class="text-center mb-4">
+                <h4 class="modal-title d-inline-block fw-bold text-uppercase">Termos de Uso</h4>
+            </div>
+
+            <div class="termos-texto p-3 rounded-3 shadow-inner">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque faucibus ex sapien vitae pellentesque sem placerat.</p>
+                <p>In id cursus mi pretium tellus duis convallis. Tempus leo eu aenean sed diam urna tempor.</p>
+                <p>Pulvinar vivamus fringilla lacus nec metus bibendum egestas. Laculis massa nisl malesuada lacinia integer nunc posuere.</p>
+                <p>Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia nostra inceptos himenaeos.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+
+            <div class="text-center mt-3">
+                <small class="text-white-50">Role para ler todo o conteúdo</small>
+            </div>
+        </div>
+
+    </div>
+    </div>
+</div>
+
+<!-- script para chack mark-->
+<script>
+    const checkbox = document.getElementById('checkTermos');
+    const botao = document.getElementById('btnSubmit');
+
+    checkbox.addEventListener('change', function() {
+        // Toggle simplificado
+        botao.disabled = !this.checked;
+    });
+
+    // Clique na caixa de imagem simula clique no input file
+    document.querySelector('.upload-box').addEventListener('click', function() {
+        document.getElementById('uploadImage').click();
+    });
+</script>
+
+<!-- Script para carregar a imagem-->
+<script>
+    // Seleciona os elementos
+    const box = document.getElementById('previewBox');
+    const input = document.getElementById('foto');
+    const preview = document.getElementById('imagePreview');
+    const placeholder = document.getElementById('uploadPlaceholder');
+
+    // 1. Clicar na caixa cinza abre o seletor de arquivos
+    box.addEventListener('click', function() {
+        input.click();
+    });
+
+    // 2. Quando o usuário escolhe uma foto, mostra ela na caixa
+    input.addEventListener('change', function(event) {
+        const arquivo = event.target.files[0];
+
+        if (arquivo) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview.src = e.target.result;  // Define a imagem
+                preview.style.display = 'block'; // Mostra a imagem
+                placeholder.style.display = 'none'; // Esconde o ícone/texto
+            }
+
+            reader.readAsDataURL(arquivo);
+        }
+    });
+</script>
+
+
+<!--CEP-->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const btnBuscarCep = document.getElementById("btnBuscarCep");
+
+        if (btnBuscarCep) {
+            btnBuscarCep.addEventListener("click", async function () {
+                const cepInput = document.getElementById("cep");
+                const cep = cepInput.value.replace(/\D/g, '');
+
+                if (cep.length !== 8) {
+                    alert("CEP inválido. Digite 8 números.");
+                    return;
+                }
+
+                // Bloqueia botão e muda cursor
+                btnBuscarCep.disabled = true;
+                document.body.style.cursor = 'wait';
+
+                try {
+                    const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+                    const data = await response.json();
+
+                    if (!data.erro) {
+                        // AGORA VAI FUNCIONAR:
+                        // Os IDs do seu HTML são iguais aos dados que chegam do ViaCEP
+
+                        // HTML id="uf" recebe data.uf
+                        if(document.getElementById("uf")) {
+                            document.getElementById("uf").value = data.uf;
+                        }
+
+                        // HTML id="localidade" recebe data.localidade
+                        if(document.getElementById("localidade")) {
+                            document.getElementById("localidade").value = data.localidade;
+                        }
+
+                        // HTML id="bairro" recebe data.bairro
+                        if(document.getElementById("bairro")) {
+                            document.getElementById("bairro").value = data.bairro;
+                        }
+
+                        // HTML id="logradouro" recebe data.logradouro
+                        if(document.getElementById("logradouro")) {
+                            document.getElementById("logradouro").value = data.logradouro;
+                        }
+
+                    } else {
+                        alert("CEP não encontrado.");
+                    }
+                } catch (error) {
+                    console.error("Erro:", error);
+                    alert("Erro ao buscar o CEP.");
+                } finally {
+                    btnBuscarCep.disabled = false;
+                    document.body.style.cursor = 'default';
+                }
+            });
+        }
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
