@@ -25,8 +25,7 @@ public class Formulario {
     @Enumerated(EnumType.STRING)
     private EnumTipoAnimal tipoAnimal;
 
-    @Column
-    @Lob
+    @Column (columnDefinition = "TEXT")
     private String descricao;
 
     @JoinColumn(name = "usuario_criaddor_id")

@@ -4,15 +4,16 @@ import com.example.AminalReport.entities.enums.EnumNivelUrgencia;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.formularios.Denuncia;
 import com.example.AminalReport.service.DenunciaService;
+import org.springframework.transaction.annotation.Transactional; // <--- USE ESTE IMPORT
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
+import java.util.Optional;
 
 @Controller
 @RequestMapping
@@ -20,7 +21,6 @@ public class DenunciaController {
 
     @Autowired
     DenunciaService denunciaService;
-
 
     @GetMapping("/denuncia")
     public String denuncia(){
@@ -43,7 +43,6 @@ public class DenunciaController {
         Denuncia denuncia = new Denuncia();
 
         byte[] fotoBytes = null;
-
         if (!foto.isEmpty()) {
             fotoBytes = foto.getBytes();
         }
@@ -64,25 +63,53 @@ public class DenunciaController {
         return "redirect:/";
     }
 
+    @GetMapping("/denuncias/detalhes/{id}")
+    @Transactional(readOnly = true) // <--- Agora podemos usar readOnly=true
+    public String verDetalhes(@PathVariable("id") Long id, Model model) {
+
+        Optional<Denuncia> denunciaOpt = denunciaService.buscarPorId(id);
+
+        if (denunciaOpt.isPresent()) {
+            Denuncia denuncia = denunciaOpt.get();
+            model.addAttribute("denuncia", denuncia);
+
+            if (denuncia.getFoto() != null && denuncia.getFoto().length > 0) {
+                String imagemBase64 = Base64.getEncoder().encodeToString(denuncia.getFoto());
+                model.addAttribute("imagemDetalhe", "data:image/jpeg;base64," + imagemBase64);
+            } else {
+                model.addAttribute("imagemDetalhe", "/images/sem-foto.jpg");
+            }
+            return "detalhe";
+        }
+        return "redirect:/";
+    }
+
     @GetMapping("/denuncia/urgente")
-    public String denunciaUrgente() {return "denunciaUrgente";}
+    public String denunciaUrgente() { return "denunciaUrgente"; }
 
     @PostMapping("/denuncia/urgente")
     public String denunciaUrgente(
-    @RequestParam byte[] foto,
-    @RequestParam EnumTipoAnimal tipoAnimal,
-    @RequestParam String descricao,
-    @RequestParam String contato) {
+            @RequestParam MultipartFile foto, // <--- CORRIGIDO: Usando MultipartFile
+            @RequestParam EnumTipoAnimal tipoAnimal,
+            @RequestParam String descricao,
+            @RequestParam String contato) throws IOException { // <--- Exception adicionada para o getBytes()
 
         Denuncia denuncia = new Denuncia();
 
-        denuncia.setFoto(foto);
+        // Lógica de conversão da foto
+        if (!foto.isEmpty()) {
+            denuncia.setFoto(foto.getBytes());
+        }
+
         denuncia.setTipoAnimal(tipoAnimal);
-        denuncia.setDescricao(descricao) ;
+        denuncia.setDescricao(descricao);
+
+        // Valores padrão para passar na validação do banco (Not Null)
         denuncia.setBairro("URGÊNCIA");
         denuncia.setEstado("URGÊNCIA");
         denuncia.setMunicipio("URGÊNCIA");
-        denuncia.setUrgencia(EnumNivelUrgencia.URGENTE);
+
+        denuncia.setUrgencia(EnumNivelUrgencia.EMERGENCIA); // Ajuste se necessário (EMERGENCIA ou URGENTE)
         denuncia.setContato(contato);
 
         denunciaService.saveDenuncia(denuncia);
