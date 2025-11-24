@@ -12,4 +12,5 @@ public interface DenunciaRepository extends JpaRepository<Denuncia, Long> {
 
     //ordenado pelo id = mais recente
     List<Denuncia> findAllByOrderByIdDesc();
+
 }

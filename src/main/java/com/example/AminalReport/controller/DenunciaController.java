@@ -1,5 +1,6 @@
 package com.example.AminalReport.controller;
 
+import com.example.AminalReport.entities.enums.EnumAndamentoDenuncia;
 import com.example.AminalReport.entities.enums.EnumNivelUrgencia;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.formularios.Denuncia;
@@ -28,32 +29,10 @@ public class DenunciaController {
     @Autowired
     private UserRepository userRepository;
 
-    // --- MÉTODO AUXILIAR PARA CARREGAR O USUÁRIO NA NAVBAR ---
-    private void adicionarUsuarioAoModel(Model model, Principal principal) {
-        if (principal != null) {
-            String email = principal.getName();
-            // Busca o usuário e evita NullPointerException com orElse(null)
-            Usuario usuario = userRepository.findByEmail(email).orElse(null);
-
-            if (usuario != null) {
-                model.addAttribute("usuarioLogado", usuario);
-
-                // Lógica da foto do perfil da navbar
-                if (usuario.getFoto() != null && usuario.getFoto().length > 0) {
-                    String imagem = Base64.getEncoder().encodeToString(usuario.getFoto());
-                    model.addAttribute("fotoPerfil", "data:image/jpeg;base64," + imagem);
-                } else {
-                    model.addAttribute("fotoPerfil", "/images/perfilPadrao.jpg");
-                }
-            }
-        }
-    }
 
     // --- PÁGINA DE DENÚNCIA PADRÃO (GET) ---
     @GetMapping("/denuncia")
-    public String denuncia(Model model, Principal principal) {
-        // Adiciona o usuário para a Navbar não quebrar
-        adicionarUsuarioAoModel(model, principal);
+    public String denuncia() {
         return "denuncia";
     }
 
@@ -94,7 +73,8 @@ public class DenunciaController {
         denuncia.setMunicipio(municipio);
         denuncia.setBairro(bairro);
         denuncia.setRua(rua);
-        denuncia.setComplemento(pontoRef);
+        denuncia.setPontoRef(pontoRef);
+        denuncia.setAndamentoDenuncia(EnumAndamentoDenuncia.AGUARDANDO);
 
         denunciaService.saveDenuncia(denuncia);
 
@@ -104,10 +84,7 @@ public class DenunciaController {
     // --- PÁGINA DE DETALHES (GET) ---
     @GetMapping("/denuncias/detalhe/{id}")
     @Transactional(readOnly = true)
-    public String verDetalhes(@PathVariable("id") Long id, Model model, Principal principal) {
-
-        // Adiciona o usuário para a Navbar não quebrar
-        adicionarUsuarioAoModel(model, principal);
+    public String verDetalhes(@PathVariable("id") Long id, Model model) {
 
         Optional<Denuncia> denunciaOpt = denunciaService.buscarPorId(id);
 
@@ -115,22 +92,24 @@ public class DenunciaController {
             Denuncia denuncia = denunciaOpt.get();
             model.addAttribute("denuncia", denuncia);
 
+            // --- AQUI ESTÁ A MÁGICA ---
+            model.addAttribute("voltarPara", "/home"); // Define que volta para Home
+            // ---------------------------
+
             if (denuncia.getFoto() != null && denuncia.getFoto().length > 0) {
                 String imagemBase64 = Base64.getEncoder().encodeToString(denuncia.getFoto());
                 model.addAttribute("imagemDetalhe", "data:image/jpeg;base64," + imagemBase64);
             } else {
                 model.addAttribute("imagemDetalhe", "/images/sem-foto.jpg");
             }
-            return "detalhe"; // ATENÇÃO: O nome do arquivo HTML é "detalhes.html"
+            return "detalhe";
         }
         return "redirect:/";
     }
 
     // --- PÁGINA DE DENÚNCIA URGENTE (GET) ---
     @GetMapping("/urgente")
-    public String denunciaUrgente(Model model, Principal principal) {
-        // Adiciona o usuário para a Navbar não quebrar
-        adicionarUsuarioAoModel(model, principal);
+    public String denunciaUrgente() {
         return "urgente";
     }
 
@@ -159,12 +138,13 @@ public class DenunciaController {
 
         // Valores padrão para validação
         denuncia.setBairro("URGÊNCIA");
-        denuncia.setEstado("URGÊNCIA.");
+        denuncia.setEstado("URGÊNCIA");
         denuncia.setMunicipio("URGÊNCIA");
         denuncia.setCep("98998-989");
 
         denuncia.setUrgencia(EnumNivelUrgencia.EMERGENCIA);
         denuncia.setContato(contato);
+        denuncia.setAndamentoDenuncia(EnumAndamentoDenuncia.AGUARDANDO);
 
         denunciaService.saveDenuncia(denuncia);
 
