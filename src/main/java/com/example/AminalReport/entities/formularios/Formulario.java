@@ -50,13 +50,13 @@ public class Formulario {
     @Column (nullable = false)
     private String estado;
 
-    @Column
-    private String complemento;
+    @Column (columnDefinition = "TEXT")
+    private String pontoRef;
 
     //Construtores
     public Formulario () {}
 
-    public Formulario (byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String complemento, String contato) {
+    public Formulario (byte[] foto, EnumTipoAnimal tipoAnimal,String pontoRef, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String contato) {
         this.foto = foto;
         this.tipoAnimal = tipoAnimal;
         this.descricao = descricao;
@@ -66,8 +66,8 @@ public class Formulario {
         this.bairro = bairro;
         this.municipio = municipio;
         this.estado = estado;
-        this.complemento = complemento;
         this.contato = contato;
+        this.pontoRef = pontoRef;
     }
 
 
@@ -149,15 +149,17 @@ public class Formulario {
         this.estado = estado;
     }
 
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
 
     public String getContato() { return contato; }
 
     public void setContato (String contato) {this.contato = contato; }
+
+    public String getPontoRef() {
+        return pontoRef;
+    }
+
+    public void setPontoRef(String pontoRef) {
+        this.pontoRef = pontoRef;
+    }
 }
+

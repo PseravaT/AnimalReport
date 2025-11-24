@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>AR - Status</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<div class="container mt-5" th:if="${usuarioLogado != null}">
+    <h1 class="titulo-menu">Suas Denúncias</h1>
+    <hr>
+    <div class="tabela-fixa-container" style="max-height: 700px !important; overflow-y: auto !important; max-width: 1200px !important;">
+        <div th:if="${denuncias.isEmpty()}" class="alert alert-secondary text-center">
+            Nenhuma denúncia registrada ainda.
+        </div>
+
+        <table th:unless="${denuncias.isEmpty()}" class="table table-dark table-striped mb-0 align-middle">
+            <thead>
+            <tr>
+                <th style="width: 15%">Estado</th>
+                <th style="width: 15%">Cidade</th> <th style="width: 20%">Bairro</th>
+                <th style="width: 15%">Tipo</th>    <th style="width: 15%">Urgência</th>
+                <th style="width: 30%"
+                    th:if="${usuarioLogado != null}">
+                    Ação
+                </th>
+                <th style="width:20% "> Status </th>
+
+            </tr>
+            </thead>
+            <tbody>
+
+            <tr th:each="denuncia : ${denuncias}">
+
+                <td style="width: 15%" th:text="${denuncia.estado}"></td>
+
+                <td style="width: 15%" th:text="${denuncia.municipio}"></td>
+
+                <td style="width: 20%" th:text="${denuncia.bairro}"></td>
+
+                <td style="width: 15%" th:text="${denuncia.tipoAnimal}"></td>
+
+                <td style="width: 15%">
+                    <span th:text="${denuncia.urgencia.descricao}"
+                          class="fw-bold"
+                          th:classappend="${denuncia.urgencia.name() == 'EMERGENCIA' ? 'text-danger' :
+                                           (denuncia.urgencia.name() == 'MUITO_URGENTE' ? 'text-warning' :
+                                           (denuncia.urgencia.name() == 'URGENTE' ? 'text-warning' :
+                                           (denuncia.urgencia.name() == 'POUCO_URGENTE' ? 'text-success' : 'text-info')))}">
+                    </span>
+                </td>
+
+                <td style="width: 30%" th:if="${usuarioLogado != null}">
+                    <a th:href="@{/status/detalhe/{id}(id=${denuncia.id})}" class="btn btn-sm btn-primary">
+                        Ver mais
+                    </a>
+                    <a th:href="@{/status/detalhe/{id}(id=${denuncia.id})}" class="btn btn-sm" style="background-color: goldenrod">
+                        alterar
+                    </a>
+                </td>
+                <td style="width: 20%" th:text="${denuncia.andamentoDenuncia}"
+                class="fw-bold" th:classappend="${denuncia.andamentoDenuncia.name() == 'AGUARDANDO' ? 'text-warning' :
+                                                (denuncia.andamentoDenuncia.name() == 'EM ANÁLISE' ? 'text-warning' :
+                                                 (denuncia.andamentoDenuncia.name() == 'CONCLUÍDA' ? 'text-success' :
+                                                 (denuncia.andamentoDenuncia.name() == 'REPROVADA' ? 'text-danger' : 'text-info')))}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js" integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y" crossorigin="anonymous"></script>
+</body>
+</html>

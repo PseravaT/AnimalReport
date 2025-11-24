@@ -126,14 +126,19 @@
 </div>
 
 <div class="btn-menu">
-    <div class="botao-padrão" th:if="${usuarioLogado != null}">
-        <button class="btnpad">Status</button>
-        <a th:href="@{/denuncia}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;">
+    <div class="botao-padrão" >
+        <a th:href="@{/status}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado != null}">
+        Status
+        </a>
+
+
+        <a th:href="@{/denuncia}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado == null or usuarioLogado.tipoUsuario == 'Comum'}">
             Denunciar
         </a>
     </div>
 
-    <div class="botao-emergencia">
+
+    <div class="botao-emergencia" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Comum'}">
         <a th:href="@{/urgente}" class="btnemergencia" style="text-decoration: none; text-align: center; display: inline-block;">
             Emergência
         </a>

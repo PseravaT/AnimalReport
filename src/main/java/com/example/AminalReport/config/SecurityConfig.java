@@ -26,8 +26,7 @@ public class SecurityConfig {
                 // 2. Autorização de Requisições
                 .authorizeHttpRequests(authorize -> authorize
                         // Permite acesso irrestrito a recursos estáticos e URLs de autenticação/registro
-                        .requestMatchers("/home/**","/entrar/**", "/registrar/**","/registrarOrg/**", "/css/**", "/js/**", "/images/**").permitAll()
-//                        .requestMatchers("/home/**","/denuncia", "/denuncia/**", "/denuncias/**").permitAll() // tirar após testes
+                        .requestMatchers("/home/**","/entrar/**", "/registrar/**","/registrarOrg/**", "/css/**", "/js/**", "/images/**", "/denuncia", "/").permitAll()
                         .anyRequest().authenticated() // Qualquer outra requisição exige autenticação
                 )
 
