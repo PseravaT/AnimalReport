@@ -381,3 +381,26 @@ hr {
     background-color: #212529;
     color: #fff;
 }
+
+.text-urgente {
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid #dc3545;
+    padding-bottom: .5rem;
+    color: #dc3545;
+    width: 100%;
+    text-align: center;
+}
+
+/* Estilo da Caixa de Upload */
+.upload-box2 {
+    height: 250px;              /* Altura fixa para parecer uma foto */
+    background-color: #343a40;  /* Cinza escuro (destaca do fundo preto) */
+    border: 2px dashed #6c757d; /* Borda pontilhada (indica área de arrastar/clicar) */
+    cursor: pointer;            /* Mostra a mãozinha do mouse */
+    transition: background-color 0.3s;
+}
+
+.upload-box2:hover {
+    background-color: #495057; /* Fica mais claro quando passa o mouse */
+    border-color: #d62626;     /* Borda fica verde (sua cor de destaque) */
+}

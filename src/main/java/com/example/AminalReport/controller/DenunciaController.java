@@ -127,15 +127,15 @@ public class DenunciaController {
     }
 
     // --- PÁGINA DE DENÚNCIA URGENTE (GET) ---
-    @GetMapping("/denuncia/urgente")
+    @GetMapping("/urgente")
     public String denunciaUrgente(Model model, Principal principal) {
         // Adiciona o usuário para a Navbar não quebrar
         adicionarUsuarioAoModel(model, principal);
-        return "denunciaUrgente";
+        return "urgente";
     }
 
     // --- SALVAR DENÚNCIA URGENTE (POST) ---
-    @PostMapping("/denuncia/urgente")
+    @PostMapping("/urgente")
     public String denunciaUrgente(
             @RequestParam MultipartFile foto,
             @RequestParam EnumTipoAnimal tipoAnimal,
@@ -159,8 +159,9 @@ public class DenunciaController {
 
         // Valores padrão para validação
         denuncia.setBairro("URGÊNCIA");
-        denuncia.setEstado("URGÊNCIA");
+        denuncia.setEstado("URGÊNCIA.");
         denuncia.setMunicipio("URGÊNCIA");
+        denuncia.setCep("98998-989");
 
         denuncia.setUrgencia(EnumNivelUrgencia.EMERGENCIA);
         denuncia.setContato(contato);
