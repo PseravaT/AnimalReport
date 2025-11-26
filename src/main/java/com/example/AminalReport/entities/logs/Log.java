@@ -3,35 +3,40 @@ package com.example.AminalReport.entities.logs;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.SqlTypes.*;
+
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Entity
+@Table(name = "logs_auditoria")
 public class Log {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, updatable = false)
     private TipoAcao acao;
 
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "usuario_id", nullable = true, updatable = false)
     private Usuario usuario;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime data;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String entidadeAlterada;
 
-    @Column
-    private String antes;
+    @Column(nullable = false, updatable = false)
+    private Long itemId;
 
-    @Column
-    private String depois;
+
 
     public enum TipoAcao {
         INSERT,
@@ -42,17 +47,16 @@ public class Log {
     //Construtores
     public Log() {}
 
-    public Log(TipoAcao acao, Usuario usuario, LocalDateTime data, String entidadeAlterada, String antes, String depois) {
+    public Log(TipoAcao acao, Usuario usuario, LocalDateTime data, String entidadeAlterada, Long itemId) {
         this.acao = acao;
         this.usuario = usuario;
         this.data = data;
         this.entidadeAlterada = entidadeAlterada;
-        this.antes = antes;
-        this.depois = depois;
+        this.itemId = itemId;
     }
 
-    //Getters e Setters
 
+    //Getters e Setters
     public Long getId() {
         return id;
     }
@@ -89,19 +93,11 @@ public class Log {
         this.entidadeAlterada = entidadeAlterada;
     }
 
-    public String getAntes() {
-        return antes;
+    public Long getItemId() {
+        return itemId;
     }
 
-    public void setAntes(String antes) {
-        this.antes = antes;
-    }
-
-    public String getDepois() {
-        return depois;
-    }
-
-    public void setDepois(String depois) {
-        this.depois = depois;
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
     }
 }

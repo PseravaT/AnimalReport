@@ -16,7 +16,7 @@ public class Organizacao extends Usuario{
     @Column(nullable = false, length = 14)
     private String inscricaoEstadual;
 
-    @Column
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private EnumTipoOrg tipoOrg;
 

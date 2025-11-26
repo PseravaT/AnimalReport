@@ -50,7 +50,7 @@ public class Formulario {
     @Column (nullable = false)
     private String estado;
 
-    @Column (columnDefinition = "TEXT")
+    @Column
     private String pontoRef;
 
     //Construtores
