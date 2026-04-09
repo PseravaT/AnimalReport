@@ -53,7 +53,7 @@ body {
 .titulo-menu {
     text-align: center;
     margin-top: 10px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
     color: var(--cor-terciaria);
 
 }
@@ -224,6 +224,17 @@ hr {
     width: 90%;
     margin:30px auto 0 auto;
     padding: 0 15px;
+}
+
+.butao{
+    width: 150px;
+    background-color: var(--cor-secundaria);
+    border-radius: 12px;
+    color: var(--cor-texto);
+    margin: 10px 0 30px 10px;
+    border: none;
+    font-size: large;
+    align-items: center;
 }
 
 .btnpad{
