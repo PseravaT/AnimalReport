@@ -1,6 +1,7 @@
 package com.example.AminalReport.controller;
 
 
+import com.example.AminalReport.entities.enums.EnumNivelUrgencia;
 import com.example.AminalReport.entities.formularios.Denuncia;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.repository.formularios.DenunciaRepository;
@@ -11,7 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -31,7 +35,7 @@ public class StatusController {
     private DenunciaService denunciaService;
 
     @GetMapping("/status")
-    public String status(Model model, Principal principal){
+    public String status(Model model, Principal principal) {
 
         // 1. Carregar dados do usuário logado (se houver)
         if (principal != null) {
@@ -67,6 +71,46 @@ public class StatusController {
             }
             return "detalhe";
         }
+        return "redirect:/status";
+    }
+
+    @GetMapping("/status/editar/{id}")
+    public String editarDenuncia(@PathVariable("id") Long id, Model model) {
+        Optional<Denuncia> denunciaOpt = denunciaService.buscarPorId(id);
+        if (denunciaOpt.isPresent()) {
+            Denuncia denuncia = denunciaOpt.get();
+            model.addAttribute("denuncia", denuncia);
+
+            List<EnumNivelUrgencia> nivelUrgencias = Arrays.asList(EnumNivelUrgencia.values());
+                model.addAttribute("nivelUrgencias", nivelUrgencias);
+            return "alterarDenuncia";
+
+        }
+        else return "redirect:/status";
+    }
+
+    @PostMapping("/status/editar/{id}")
+    public String atualizarDenuncia(@PathVariable("id") Long id,
+                                    @RequestParam("descricao") String descricao,
+                                    @RequestParam("nivelUrgencia") EnumNivelUrgencia urgencia,
+                                    @RequestParam("pontoRef") String pontoRef,
+                                    @RequestParam(value = "foto", required = false) MultipartFile foto) {
+        Denuncia denuncia = denunciaService.buscarPorId(id)
+                .orElseThrow(() -> new IllegalArgumentException("Denúncia não encontrada: " + id));
+
+        denuncia.setDescricao(descricao);
+        denuncia.setUrgencia(urgencia);
+        denuncia.setPontoRef(pontoRef);
+
+        if (foto != null && !foto.isEmpty()) {
+            try {
+                denuncia.setFoto(foto.getBytes());
+            } catch (java.io.IOException e) {
+                throw new IllegalStateException("Erro ao processar a foto da denúncia", e);
+            }
+        }
+
+        denunciaService.editarDenuncia(denuncia);
         return "redirect:/status";
     }
 }

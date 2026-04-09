@@ -28,4 +28,19 @@ public class DenunciaService {
     public Optional<Denuncia> buscarPorId(Long id) {
         return denunciaRepository.findById(id);
     }
+
+    public void editarDenuncia(Denuncia denuncia){
+        Optional<Denuncia> denunciaOpt = denunciaRepository.findById(denuncia.getId());
+        if (denunciaOpt.isPresent()) {
+            Denuncia denunciaExistente = denunciaOpt.get();
+            if (denuncia.getDescricao() != null){
+                denunciaExistente.setDescricao(denuncia.getDescricao());
+            }
+            denunciaExistente.setUrgencia(denuncia.getUrgencia());
+            if (denuncia.getPontoRef() != null) {
+                denunciaExistente.setPontoRef(denuncia.getPontoRef());
+            }
+        }
+        denunciaRepository.save(denuncia);
+    }
 }

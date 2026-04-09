@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <title>AR - Status</title>
@@ -57,7 +57,7 @@
                     <a th:href="@{/status/detalhe/{id}(id=${denuncia.id})}" class="btn btn-sm btn-primary">
                         Ver mais
                     </a>
-                    <a th:href="@{/status/detalhe/{id}(id=${denuncia.id})}" class="btn btn-sm" style="background-color: goldenrod">
+                    <a th:href="@{/status/editar/{id}(id=${denuncia.id})}" class="btn btn-sm" style="background-color: goldenrod">
                         alterar
                     </a>
                 </td>
