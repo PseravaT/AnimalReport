@@ -71,6 +71,22 @@
     </div>
 </div>
 
+<div class="btn-menu">
+    <div class="botao-padrão" >
+        <a th:href="@{/adocao/minhasDoacoes}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block; width: fit-content;" th:if="${usuarioLogado != null}">
+            Minhas doações
+        </a>
+
+
+        <a th:href="@{/adocao/cadastrar}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado == null or usuarioLogado.tipoUsuario == 'Comum'}">
+            Doar
+        </a>
+    </div>
+    <div class="botao-emergencia" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Comum'}">
+        <a th:href="@{/adocao/home}" class="btnDoacao" style="text-decoration: none; text-align: center; display: inline-block;">
+            Adotar
+        </a>
+    </div>
 
 <div class="container mt-5" th:if="${usuarioLogado != null}">
     <h1 class="titulo-menu">Denúncias Recentes</h1>

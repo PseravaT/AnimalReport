@@ -80,7 +80,24 @@ hr {
         max-width: 600px;
     }
 }
+.form-check {
+    display: flex;
+    justify-content: center;
+    min-height: 1.5rem;
+    padding-left: 1.5em;
+    margin-bottom: .125rem;
+}
 
+.form-check .form-check-input {
+    float: left;
+    margin-left: -1.5em;
+    margin-right: 10px;
+}
+
+.form_format{
+    width: 100%;
+    text-align: center;
+}
 .form_login {
     width: 80%;
     max-width: 400px;
@@ -265,6 +282,8 @@ hr {
     margin-bottom: 20px;
 }
 
+
+
 .btnemergencia {
     max-width: 550px;
     background-color: var(--cor-texto);
@@ -278,6 +297,22 @@ hr {
 
 .btnemergencia:hover {
     background-color: red;
+    color: var(--cor-texto);
+}
+
+.btnDoacao {
+    max-width: 550px;
+    background-color: var(--cor-texto);
+    color: #0b80f4;
+    border: none;
+    font-size: large;
+    width: 65%;
+    padding: 18px 45px;
+    border-radius: 12px;
+}
+
+.btnDoacao:hover {
+    background-color: #0b80f4;
     color: var(--cor-texto);
 }
 
