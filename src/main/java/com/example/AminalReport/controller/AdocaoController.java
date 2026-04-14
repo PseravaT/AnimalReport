@@ -3,12 +3,20 @@ package com.example.AminalReport.controller;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.formularios.Adocao;
 import com.example.AminalReport.repository.formularios.AdocaoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.security.Principal;
+import java.util.List;
 
 
 @Controller
@@ -58,5 +66,18 @@ public class AdocaoController {
         }
 
         return "redirect:/"; //alterar
+    }
+
+    @GetMapping("/home")
+    public String adocaoHome(Model model,@RequestParam(defaultValue = "0")int pagina){
+
+        Pageable pageable = PageRequest.of(pagina, 6, Sort.by("id").descending());
+        Page<Adocao> adocaoPage= adocaoRepository.findAll(pageable);
+
+        model.addAttribute("listaAdocao", adocaoPage.getContent());
+        model.addAttribute("currentPage", pagina);
+        model.addAttribute("totalPages", adocaoPage.getTotalPages());
+
+        return "adocaoHome";
     }
 }
