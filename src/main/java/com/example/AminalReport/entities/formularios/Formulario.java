@@ -5,6 +5,7 @@ import com.example.AminalReport.entities.usuarios.Usuario;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import java.util.Base64;
 
 
 @Entity
@@ -88,6 +89,11 @@ public class Formulario {
 
     public void setContato (String contato) {this.contato = contato; }
 
-
+    public String getFotoBase64() {
+        if (this.getFoto() != null && this.getFoto().length > 0) {
+            return Base64.getEncoder().encodeToString(this.getFoto());
+        }
+        return null;
+    }
 }
 

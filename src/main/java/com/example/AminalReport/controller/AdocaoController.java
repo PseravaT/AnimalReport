@@ -8,15 +8,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.util.Base64;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -79,5 +79,30 @@ public class AdocaoController {
         model.addAttribute("totalPages", adocaoPage.getTotalPages());
 
         return "adocaoHome";
+    }
+
+    @GetMapping("/home/detalhe/{id}")
+    @Transactional(readOnly = true)
+    public String verDetalhes(@PathVariable("id") Long id, Model model){
+
+        Optional<Adocao> adocaoOpt = adocaoRepository.findById(id);
+
+        if (adocaoOpt.isPresent()){
+            Adocao adocao = adocaoOpt.get();
+            model.addAttribute("adocao", adocao);
+
+            model.addAttribute("voltarPara", "/adocao/home");
+
+            if (adocao.getFoto() != null && adocao.getFoto().length > 0) {
+                String imagemBase64 = Base64.getEncoder().encodeToString(adocao.getFoto());
+                model.addAttribute("imagemDetalhe", "data:image/jpeg;base64," + imagemBase64);
+            }
+            else {
+                model.addAttribute("imagemDetalhe", "/images/sem-foto.jpg");
+            }
+            return "adocaoDetalhe";
+        }
+        return "redirect:/adocao/home";
+
     }
 }
