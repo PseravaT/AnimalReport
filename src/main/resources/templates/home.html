@@ -7,143 +7,161 @@
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-
-<div>
-    <h1 class="titulo-menu" style="padding-top:30px;background-color:rgba(0, 0, 0, 0.5); padding-bottom: 20px;">Central
-        de Adoções</h1>
-    <div class="d-flex-carousel justify-content-center px-3">
-        <div id="carouselExampleCaptions" class="carousel slide w-100" style="max-width: 1000px">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                        aria-current="true" aria-label="Slide 1"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                        aria-label="Slide 2"></button>
-                <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                        aria-label="Slide 3"></button>
+<header th:replace="~{fragments/navbar :: navbar}"></header>
+<main>
+    <div>
+        <h1 class="titulo-menu" style="padding-top:30px;background-color:rgba(0, 0, 0, 0.5); padding-bottom: 20px;">Central
+            de Adoções</h1>
+        <div class="d-flex-carousel justify-content-center px-3">
+            <div id="carouselExampleCaptions" class="carousel slide w-100" style="max-width: 1000px">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
+                            aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
+                            aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
+                            aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner w-100">
+                    <div class="carousel-item active">
+                        <img src="/images/7a3193ae-4e37-4f45-be40-ac592d891928.png" class="d-block w-100" alt="cachorro01"
+                            style="max-height: 65vh; object-fit: contain; object-position: top" />
+                        <div class="carousel-caption">
+                            <h5>Caramelo,10</h5>
+                            <p class="legenda_adot">
+                                36 anos que so come lixo e resto de comida, ajude ele a encontrar
+                                um novo lar
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/ac37863d-5db4-4093-a9cf-8680cd835fa3.png" class="d-block w-100" alt="gato01"
+                            style="max-height: 65vh; object-fit: contain; object-position: top" />
+                        <div class="carousel-caption">
+                            <h5>Gatão,6</h5>
+                            <p class="legenda_adot">
+                                Gatão está à procura de um lar cheio de carinho e cuidado. Adote e
+                                transforme a vida desse felino especial!
+                            </p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/Gemini_Generated_Image_v2xxd3v2xxd3v2xx.png" class="d-block w-100"
+                            alt="cachorro02" style="max-height: 65vh; object-fit: contain; object-position: top" />
+                        <div class="carousel-caption">
+                            <h5>Bolinha,3</h5>
+                            <p class="legenda_adot">
+                                Bolinha é um cãozinho dócil e brincalhão que espera por uma
+                                família amorosa. Dê a ele a chance de ter um novo lar!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <div class="carousel-inner w-100">
-                <div class="carousel-item active">
-                    <img src="/images/7a3193ae-4e37-4f45-be40-ac592d891928.png" class="d-block w-100" alt="cachorro01"
-                         style="max-height: 65vh; object-fit: contain; object-position: top" />
-                    <div class="carousel-caption">
-                        <h5>Caramelo,10</h5>
-                        <p class="legenda_adot">
-                            36 anos que so come lixo e resto de comida, ajude ele a encontrar
-                            um novo lar
-                        </p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="/images/ac37863d-5db4-4093-a9cf-8680cd835fa3.png" class="d-block w-100" alt="gato01"
-                         style="max-height: 65vh; object-fit: contain; object-position: top" />
-                    <div class="carousel-caption">
-                        <h5>Gatão,6</h5>
-                        <p class="legenda_adot">
-                            Gatão está à procura de um lar cheio de carinho e cuidado. Adote e
-                            transforme a vida desse felino especial!
-                        </p>
-                    </div>
-                </div>
-                <div class="carousel-item">
-                    <img src="/images/Gemini_Generated_Image_v2xxd3v2xxd3v2xx.png" class="d-block w-100"
-                         alt="cachorro02" style="max-height: 65vh; object-fit: contain; object-position: top" />
-                    <div class="carousel-caption">
-                        <h5>Bolinha,3</h5>
-                        <p class="legenda_adot">
-                            Bolinha é um cãozinho dócil e brincalhão que espera por uma
-                            família amorosa. Dê a ele a chance de ter um novo lar!
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
         </div>
     </div>
-</div>
+
+    <div class="btn-menu">
+        <div class="botao-padrão" >
+            <a th:href="@{/adocao/minhasDoacoes}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block; width: fit-content;" th:if="${usuarioLogado != null}">
+                Minhas doações
+            </a>
 
 
-<div class="container mt-5" th:if="${usuarioLogado != null}">
-    <h1 class="titulo-menu">Denúncias Recentes</h1>
-    <hr>
-    <div class="tabela-fixa-container">
-        <div th:if="${denuncias.isEmpty()}" class="alert alert-secondary text-center">
-            Nenhuma denúncia registrada ainda.
+            <a th:href="@{/adocao/cadastrar}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado == null or usuarioLogado.tipoUsuario == 'Comum'}">
+                Doar
+            </a>
+        </div>
+        <div class="botao-emergencia" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Comum'}">
+            <a th:href="@{/adocao/home}" class="btnDoacao" style="text-decoration: none; text-align: center; display: inline-block;">
+                Adotar
+            </a>
         </div>
 
-        <table th:unless="${denuncias.isEmpty()}" class="table table-dark table-striped mb-0 align-middle">
-            <thead>
-            <tr>
-                <th style="width: 15%">Estado</th>
-                <th style="width: 15%">Cidade</th> <th style="width: 20%">Bairro</th>
-                <th style="width: 15%">Tipo</th>    <th style="width: 15%">Urgência</th>
-                <th style="width: 20%"
-                    th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Organizacao'}">
-                    Ação
-                </th>
-            </tr>
-            </thead>
-            <tbody>
+    <div class="container mt-5" th:if="${usuarioLogado != null}">
+        <h1 class="titulo-menu">Denúncias Recentes</h1>
+        <hr>
+        <div class="tabela-fixa-container">
+            <div th:if="${denuncias.isEmpty()}" class="alert alert-secondary text-center">
+                Nenhuma denúncia registrada ainda.
+            </div>
 
-            <tr th:each="denuncia : ${denuncias}">
+            <table th:unless="${denuncias.isEmpty()}" class="table table-dark table-striped mb-0 align-middle">
+                <thead>
+                <tr>
+                    <th style="width: 15%">Estado</th>
+                    <th style="width: 15%">Cidade</th> <th style="width: 20%">Bairro</th>
+                    <th style="width: 15%">Tipo</th>    <th style="width: 15%">Urgência</th>
+                    <th style="width: 20%"
+                        th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Organizacao'}">
+                        Ação
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
 
-                <td style="width: 15%" th:text="${denuncia.estado}"></td>
+                <tr th:each="denuncia : ${denuncias}">
 
-                <td style="width: 15%" th:text="${denuncia.municipio}"></td>
+                    <td style="width: 15%" th:text="${denuncia.estado}"></td>
 
-                <td style="width: 20%" th:text="${denuncia.bairro}"></td>
+                    <td style="width: 15%" th:text="${denuncia.municipio}"></td>
 
-                <td style="width: 15%" th:text="${denuncia.tipoAnimal.descricao}"></td>
+                    <td style="width: 20%" th:text="${denuncia.bairro}"></td>
 
-                <td style="width: 15%">
-                    <span th:text="${denuncia.urgencia.descricao}"
-                          class="fw-bold"
-                          th:classappend="${denuncia.urgencia.name() == 'EMERGENCIA' ? 'text-danger' :
-                                           (denuncia.urgencia.name() == 'MUITO_URGENTE' ? 'text-warning' :
-                                           (denuncia.urgencia.name() == 'URGENTE' ? 'text-warning' :
-                                           (denuncia.urgencia.name() == 'POUCO_URGENTE' ? 'text-success' : 'text-info')))}">
-                    </span>
-                </td>
+                    <td style="width: 15%" th:text="${denuncia.tipoAnimal}"></td>
 
-                <td style="width: 20%" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Organizacao'}">
-                    <a th:href="@{/denuncias/detalhe/{id}(id=${denuncia.id})}" class="btn btn-sm btn-primary">
-                        Ver mais
-                    </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</div>
+                    <td style="width: 15%">
+                        <span th:text="${denuncia.urgencia.descricao}"
+                            class="fw-bold"
+                            th:classappend="${denuncia.urgencia.name() == 'EMERGENCIA' ? 'text-danger' :
+                                            (denuncia.urgencia.name() == 'MUITO_URGENTE' ? 'text-warning' :
+                                            (denuncia.urgencia.name() == 'URGENTE' ? 'text-warning' :
+                                            (denuncia.urgencia.name() == 'POUCO_URGENTE' ? 'text-success' : 'text-info')))}">
+                        </span>
+                    </td>
 
-<div class="btn-menu">
-    <div class="botao-padrão" >
-        <a th:href="@{/status}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado != null}">
-        Status
-        </a>
-
-
-        <a th:href="@{/denuncia}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado == null or usuarioLogado.tipoUsuario == 'Comum'}">
-            Denunciar
-        </a>
+                    <td style="width: 20%" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Organizacao'}">
+                        <a th:href="@{/denuncias/detalhe/{id}(id=${denuncia.id})}" class="btn btn-sm btn-primary">
+                            Ver mais
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
+    <div class="btn-menu mb-10">
+        <div class="botao-padrão" >
+            <a th:href="@{/status}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado != null}">
+            Status
+            </a>
 
-    <div class="botao-emergencia" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Comum'}">
-        <a th:href="@{/urgente}" class="btnemergencia" style="text-decoration: none; text-align: center; display: inline-block;">
-            Emergência
-        </a>
+
+            <a th:href="@{/denuncia}" class="btnpad" style="text-decoration: none; text-align: center; display: inline-block;" th:if="${usuarioLogado == null or usuarioLogado.tipoUsuario == 'Comum'}">
+                Denunciar
+            </a>
+        </div>
+
+
+        <div class="botao-emergencia" th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Comum'}">
+            <a th:href="@{/urgente}" class="btnemergencia" style="text-decoration: none; text-align: center; display: inline-block;">
+                Emergência
+            </a>
+        </div>
     </div>
-</div>
+</main>
+<footer th:replace="~{fragments/footer :: footer}"></footer>
 </body>
 </html>
 

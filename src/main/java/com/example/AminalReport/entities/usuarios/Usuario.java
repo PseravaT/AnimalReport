@@ -40,9 +40,9 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private EnumStatusUsuario statusUsuario;
 
-    @Column(columnDefinition = "BYTEA")
+    @Column(columnDefinition = "BYTEA") // Pode manter se quiser garantir a DDL
     @Lob
-    @JdbcTypeCode(SqlTypes.BINARY)
+    @JdbcTypeCode(SqlTypes.BINARY)      // <--- ISSO RESOLVE O ERRO DE OID
     private byte[] foto;
 
     //Construtores

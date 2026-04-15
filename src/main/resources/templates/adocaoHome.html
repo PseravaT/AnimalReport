@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Animais para Adoção</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+
+    <main class="conteudo-principal">
+        <div class="container mt-5">
+            <h1 class="titulo-adocao">Animais para adoção</h1>
+
+            <div class="cards-grid-adocao">
+                <div class="card-animal" th:each="a : ${listaAdocao}">
+
+                    <div class="foto-moldura">
+                        <img th:if="${a.fotoBase64 != null}"
+                             th:src="'data:image/jpeg;base64,' + ${a.fotoBase64}" />
+                        <img th:unless="${a.fotoBase64 != null}"
+                             th:src="@{/images/sem-foto.jpg}" />
+                    </div>
+
+                    <h4 th:text="${a.nomeAnimal}">Nome</h4>
+                    <p class="card-descricao"
+                       th:text="${a.descricao != null ? #strings.abbreviate(a.descricao, 80) : 'Sem descrição disponível.'}">
+                        Descrição breve
+                    </p>
+
+                    <a th:href="@{/adocao/home/detalhe/{id}(id=${a.id})}" class="btn-card-detalhes">
+                        Ver Detalhes
+                    </a>
+                </div>
+            </div>
+
+            <div class="paginacao-container">
+                <a th:if="${currentPage > 0}"
+                   th:href="@{/adocao/home(pagina=${currentPage - 1})}"
+                   class="btn-pag-seta">◀ Anterior</a>
+
+                <span class="texto-paginacao">
+            Página <span th:text="${currentPage + 1}"></span> de <span th:text="${totalPages}"></span>
+        </span>
+
+                <a th:if="${currentPage + 1 < totalPages}"
+                   th:href="@{/adocao/home(pagina=${currentPage + 1})}"
+                   class="btn-pag-seta">Próxima ▶</a>
+            </div>
+        </div>
+
+        <span class="status-paginacao" th:if="${totalPages > 0}">
+                Página <span th:text="${currentPage + 1}"></span>
+                de <span th:text="${totalPages}"></span>
+            </span>
+
+        <a th:if="${currentPage + 1 < totalPages}"
+           th:href="@{/adocao/home(pagina=${currentPage + 1})}"
+           class="btn-paginacao">
+            Próxima ▶
+        </a>
+        </div>
+
+    </main>
+
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+</body>
+</html>

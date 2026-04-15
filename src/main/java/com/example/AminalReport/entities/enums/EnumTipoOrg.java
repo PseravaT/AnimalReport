@@ -3,8 +3,7 @@ package com.example.AminalReport.entities.enums;
 public enum EnumTipoOrg {
     ONG("ONG"),
     SECRETARIA_MUNICIPAL("Secretaria Municipal"),
-    POLICIA_AMBIENTAL("Polícia Ambiental"),
-    OUTRO("Outro");
+    POLICIA_AMBIENTAL("Polícia Ambiental");
 
     private final String descricao;
 

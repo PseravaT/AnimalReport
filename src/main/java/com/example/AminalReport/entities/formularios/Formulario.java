@@ -5,6 +5,7 @@ import com.example.AminalReport.entities.usuarios.Usuario;
 import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import java.util.Base64;
 
 
 @Entity
@@ -35,41 +36,16 @@ public class Formulario {
     @Column
     private String contato;
 
-    @Column
-    private String cep;
-
-    @Column
-    private String rua;
-
-    @Column (nullable = false)
-    private String bairro;
-
-    @Column (nullable = false)
-    private String municipio;
-
-    @Column (nullable = false)
-    private String estado;
-
-    @Column
-    private String pontoRef;
-
     //Construtores
     public Formulario () {}
 
-    public Formulario (byte[] foto, EnumTipoAnimal tipoAnimal,String pontoRef, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String contato) {
+    public Formulario(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String contato) {
         this.foto = foto;
         this.tipoAnimal = tipoAnimal;
         this.descricao = descricao;
         this.usuarioCriador = usuarioCriador;
-        this.cep = cep;
-        this.rua = rua;
-        this.bairro = bairro;
-        this.municipio = municipio;
-        this.estado = estado;
         this.contato = contato;
-        this.pontoRef = pontoRef;
     }
-
 
     //Getters e Setters
 
@@ -109,57 +85,15 @@ public class Formulario {
         this.usuarioCriador = usuarioCriador;
     }
 
-    public String getCep() {
-        return cep;
-    }
-
-    public void setCep(String cep) {
-        this.cep = cep;
-    }
-
-    public String getRua() {
-        return rua;
-    }
-
-    public void setRua(String rua) {
-        this.rua = rua;
-    }
-
-    public String getBairro() {
-        return bairro;
-    }
-
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
-    }
-
-    public String getMunicipio() {
-        return municipio;
-    }
-
-    public void setMunicipio(String municipio) {
-        this.municipio = municipio;
-    }
-
-    public String getEstado() {
-        return estado;
-    }
-
-    public void setEstado(String estado) {
-        this.estado = estado;
-    }
-
-
     public String getContato() { return contato; }
 
     public void setContato (String contato) {this.contato = contato; }
 
-    public String getPontoRef() {
-        return pontoRef;
-    }
-
-    public void setPontoRef(String pontoRef) {
-        this.pontoRef = pontoRef;
+    public String getFotoBase64() {
+        if (this.getFoto() != null && this.getFoto().length > 0) {
+            return Base64.getEncoder().encodeToString(this.getFoto());
+        }
+        return null;
     }
 }
 

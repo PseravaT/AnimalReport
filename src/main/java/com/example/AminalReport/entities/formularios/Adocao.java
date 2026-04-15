@@ -1,5 +1,6 @@
 package com.example.AminalReport.entities.formularios;
 
+import com.example.AminalReport.entities.enums.EnumAndamentoAdocao;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import jakarta.persistence.Column;
@@ -16,16 +17,21 @@ public class Adocao extends Formulario{
     @Column
     private Integer idadeEstimada;
 
+    @Column
+    private EnumAndamentoAdocao statusAdocao = EnumAndamentoAdocao.AGUARDANDO;
+
     //Construtores
     public Adocao () {}
 
-    public Adocao(byte[] foto, EnumTipoAnimal tipoAnimal, String pontoRef, String descricao, Usuario usuarioCriador, String cep, String rua, String bairro, String municipio, String estado, String contato, String nomeAnimal, Integer idadeEstimada) {
-        super(foto, tipoAnimal, pontoRef, descricao, usuarioCriador, cep, rua, bairro, municipio, estado, contato);
+
+    public Adocao(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String contato, String nomeAnimal, Integer idadeEstimada,  EnumAndamentoAdocao statusAdocao) {
+        super(foto, tipoAnimal, descricao, usuarioCriador, contato);
         this.nomeAnimal = nomeAnimal;
         this.idadeEstimada = idadeEstimada;
+        this.statusAdocao = statusAdocao;
     }
 
-//Getters e Setters
+    //Getters e Setters
 
     public String getNomeAnimal() {
         return nomeAnimal;
@@ -42,4 +48,8 @@ public class Adocao extends Formulario{
     public void setIdadeEstimada(Integer idadeEstimada) {
         this.idadeEstimada = idadeEstimada;
     }
+
+    public EnumAndamentoAdocao getStatusAdocao() {return statusAdocao;}
+
+    public void setStatusAdocao(EnumAndamentoAdocao statusAdocao) {this.statusAdocao = statusAdocao;}
 }

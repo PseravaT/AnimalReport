@@ -8,10 +8,12 @@
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<header th:replace="~{fragments/navbar :: navbar}"></header>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<main>
-    <div class="denuncia-container mx-auto" style="max-width: 500px;">
+<div class="denuncia-container mx-auto" style="max-width: 500px;">
+    <div class="d-flex justify-content-start p-0">
+        <button type="button" class="butao" onclick="history.back()">Voltar</button>
+    </div>
 
     <h2 class="text-denuncia">
         Denúncia
@@ -19,37 +21,38 @@
 
     <!--    Formulário de cadastro de Denúncia   -->
 
-    <form th:action="@{/denuncia}" method="POST" enctype="multipart/form-data"> >
-        <!--  UPLOAD DE FOTOS !-->
-        <div class="upload-box rounded mb-3 d-flex flex-column align-items-center justify-content-center text-secondary position-relative overflow-hidden" id="previewBox">
+    <form th:action="@{/status/editar/{id}(id=${denuncia.id})}" method="POST" enctype="multipart/form-data"> >
+<!--        &lt;!&ndash;  UPLOAD DE FOTOS !&ndash;&gt;-->
+<!--        <div class="upload-box rounded mb-3 d-flex flex-column align-items-center justify-content-center text-secondary position-relative overflow-hidden" id="previewBox">-->
 
-            <div id="uploadPlaceholder" class="text-center">
-                <i class="bi bi-image" style="font-size: 4rem;"></i>
-                <p class="m-0 small">Toque para adicionar foto</p>
-            </div>
+<!--            <div id="uploadPlaceholder" class="text-center">-->
+<!--                <i class="bi bi-image" style="font-size: 4rem;"></i>-->
+<!--                <p class="m-0 small">Toque para adicionar foto</p>-->
+<!--            </div>-->
 
-            <img id="imagePreview" src="" alt="Preview" style="display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+<!--            <img id="imagePreview" src="" alt="Preview" style="display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">-->
 
-            <input type="file" class="d-none" id="foto" name="foto" accept="image/*">
-        </div>
+<!--            <input type="file" class="d-none" id="foto" name="foto" accept="image/*">-->
+<!--        </div>-->
 
         <!--        ENUM ANIMAIS    -->
         <div class="mb-3">
             <label for="tipoAnimal" class="form-label" style="color: #ffffff !important;">Tipo de Animais</label>
 
             <select class="form-select" id="tipoAnimal" name="tipoAnimal" required>
-                <option value="" selected>Selecione o tipo...</option>
 
-                <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumTipoAnimal).values()}"
+                <option th:each="tipo : ${denuncia.tipoAnimal}"
                         th:value="${tipo}"
-                        th:text="${tipo.descricao}">
+                        th:text="${tipo.descricao}"
+                        selected>
                 </option>
             </select>
         </div>
 
 <!--        Descrição -->
         <div class="mb-3">
-            <textarea class="form-control" id="descricao"  name="descricao" rows="3" placeholder="Descrição"></textarea>
+            <label for="descricao"  class="visually-hidden"></label>
+            <textarea class="form-control" id="descricao" name="descricao" rows="3" th:text="${denuncia.descricao}"></textarea>
         </div>
 
         <!--        ENUM ESTIMATIVA DE RISCO    -->
@@ -57,11 +60,11 @@
             <label for="nivelUrgencia" class="form-label" style="color: #ffffff !important;">Estimativa de Risco</label>
 
             <select class="form-select" id="nivelUrgencia" name="nivelUrgencia" required>
-                <option value="" selected>Selecione o tipo...</option>
 
-                <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumNivelUrgencia).values()}"
+                <option th:each="tipo : ${nivelUrgencias}"
                         th:value="${tipo}"
-                        th:text="${tipo.descricao}">
+                        th:text="${tipo.descricao}"
+                        th:selected="${denuncia.urgencia == tipo}">
                 </option>
             </select>
         </div>
@@ -76,33 +79,39 @@
             <div class="row g-2 mb-3">
                 <div class="col-6">
                     <div class="input-group">
-                        <input type="text" class="form-control" name="cep" id="cep" placeholder="CEP" maxlength="9" required>
+                        <label for="cep"  class="visually-hidden"></label>
+                        <input type="text" class="form-control" name="cep" id="cep" th:placeholder="${denuncia.cep}" maxlength="9" disabled>
                         <button class="btn btn-outline-secondary bg-dark text-white" type="button" id="btnBuscarCep">
                             <i class="bi bi-search"></i>
                         </button>
                     </div>
                 </div>
                 <div class="col-6">
-                    <input type="text" class="form-control" name="estado" id="uf" placeholder="Estado" required>
+                    <label for="uf" class="visually-hidden"></label>
+                    <input type="text" class="form-control" name="estado" id="uf" th:placeholder="${denuncia.estado}" disabled>
                 </div>
             </div>
 
             <div class="row g-2 mb-3">
                 <div class="col-6">
-                    <input type="text" class="form-control" name="municipio" id="localidade" placeholder="Município" required>
+                    <label for="localidade" class="visually-hidden"></label>
+                    <input type="text" class="form-control" name="municipio" id="localidade" th:placeholder="${denuncia.municipio}" disabled>
                 </div>
                 <div class="col-6">
-                    <input type="text" class="form-control" name="bairro" id="bairro" placeholder="Bairro" required>
+                    <label for="bairro" class="visually-hidden">Bairro</label>
+                    <input type="text" class="form-control" name="bairro" id="bairro" th:placeholder="${denuncia.bairro}" disabled>
                 </div>
             </div>
 
             <div class="mb-3">
-                <input type="text" class="form-control" name="rua" id="logradouro" placeholder="Rua" required>
+                <label for="logradouro" class="visually-hidden"></label>
+                <input type="text" class="form-control" name="rua" id="logradouro" th:placeholder="${denuncia.rua}" disabled>
             </div>
         </div>
 
         <div class="mb-3">
-            <textarea class="form-control" id="pontoRef"  name="pontoRef" rows="3" placeholder="ponto de Referência"></textarea>
+            <label for="pontoRef" class="visually-hidden">
+            </label><textarea class="form-control" id="pontoRef" name="pontoRef" rows="3" th:text="${denuncia.pontoRef}" ></textarea>
         </div>
 
         <div class="mb-3 form-check">
@@ -116,7 +125,7 @@
         </div>
 
         <button type="submit" class="btn btn-primary w-100 fw-bold py-2 rounded-5 mb-5" id="btnSubmit" disabled>
-            Denunciar
+            Alterar
         </button>
 
     </form>
@@ -151,7 +160,6 @@
     </div>
     </div>
 </div>
-</main>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
