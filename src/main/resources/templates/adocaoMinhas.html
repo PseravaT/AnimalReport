@@ -38,6 +38,7 @@
                     <th style="width: 15% !important; border-bottom: 1px solid #444;">Tipo</th>
                     <th style="width: 25% !important; border-bottom: 1px solid #444;">Ação</th>
                     <th style="width: 25% !important; border-bottom: 1px solid #444;">Contato</th>
+                    <th style="width: 25% !important; border-bottom: 1px solid #444;">Status</th>
                 </tr>
                 </thead>
 
@@ -54,12 +55,20 @@
                             <a th:href="@{/adocao/home/detalhe/{id}(id=${adocao.id})}" class="btn btn-sm btn-primary">
                                 Ver mais
                             </a>
-                            <a th:href="@{/adocao/home/alterar/{id}(id=${adocao.id})}" class="btn btn-sm" style="background-color: goldenrod; color: white;">
-                                alterar
+                            <a th:href="@{/adocao/alterar/{id}(id=${adocao.id})}" class="btn btn-sm" style="background-color: goldenrod; color: white;">
+                                Alterar
                             </a>
                         </div>
                     </td>
                     <td th:text="${adocao.contato}" class="fw-bold"></td>
+                    <td style="width: 15%">
+                        <span th:text="${adocao.statusAdocao.descricao}"
+                              class="fw-bold"
+                              th:classappend="${adocao.statusAdocao.name() == 'RETIRADA' ? 'text-danger' :
+                                            (adocao.statusAdocao.name() == 'AGUARDANDO' ? 'text-warning' :
+                                            (adocao.statusAdocao.name() == 'CONCLUIDA' ? 'text-success' : 'text-info'))}">
+                        </span>
+                    </td>
                 </tr>
                 </tbody>
             </table>

@@ -17,7 +17,7 @@
             <h1 class="titulo-adocao">Animais para adoção</h1>
 
             <div class="cards-grid-adocao">
-                <div class="card-animal" th:each="a : ${listaAdocao}">
+                <div class="card-animal" th:each="a : ${listaAdocao}" th:if="${a.statusAdocao.name() == 'AGUARDANDO'}">
 
                     <div class="foto-moldura">
                         <img th:if="${a.fotoBase64 != null}"
@@ -30,6 +30,12 @@
                     <p class="card-descricao"
                        th:text="${a.descricao != null ? #strings.abbreviate(a.descricao, 80) : 'Sem descrição disponível.'}">
                         Descrição breve
+                    </p>
+                    <p th:text="${a.statusAdocao.descricao}"
+                        class="fw-bold"
+                        th:classappend="${a.statusAdocao.name() == 'RETIRADA' ? 'text-danger' :
+                                    (a.statusAdocao.name() == 'AGUARDANDO' ? 'text-warning' :
+                                    (a.statusAdocao.name() == 'CONCLUIDA' ? 'text-success' : 'text-info'))}">
                     </p>
 
                     <a th:href="@{/adocao/home/detalhe/{id}(id=${a.id})}" class="btn-card-detalhes">

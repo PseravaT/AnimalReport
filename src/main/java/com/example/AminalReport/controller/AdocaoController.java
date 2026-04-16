@@ -1,5 +1,7 @@
 package com.example.AminalReport.controller;
 
+import com.example.AminalReport.entities.enums.EnumAndamentoAdocao;
+import com.example.AminalReport.entities.enums.EnumAndamentoDenuncia;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.formularios.Adocao;
 import com.example.AminalReport.entities.formularios.Denuncia;
@@ -17,7 +19,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -81,7 +85,7 @@ public class AdocaoController {
             throw new IllegalArgumentException("Erro ao cadastrar Adoção: " + e.getMessage());
         }
 
-        return "redirect:/"; //alterar
+        return "redirect:/adocao/minhasDoacoes";
     }
 
     @GetMapping("/home")
@@ -132,5 +136,33 @@ public class AdocaoController {
             model.addAttribute("minhasAdocoes", listaDoacoes);
         }
         return "adocaoMinhas";
+    }
+
+    @GetMapping("/alterar/{id}")
+    public String alterar(@PathVariable("id") Long id, Model model){
+        Adocao adocao = adocaoRepository.findById(id).orElse(null);
+        model.addAttribute("adocao", adocao);
+
+        List<EnumAndamentoAdocao> statusExistentes = Arrays.asList(EnumAndamentoAdocao.values());
+        model.addAttribute("statusExistentes", statusExistentes);
+
+        return "adocaoAlterar";
+    }
+
+    @PostMapping("/alterar/{id}")
+    public String alterarAdocao(@PathVariable("id") Long id,
+                                @RequestParam(value = "foto", required = false) MultipartFile foto,
+                                @RequestParam(required = false) String nomeAnimal,
+                                @RequestParam(required = false) Integer idadeEstimada,
+                                @RequestParam(required = false) String descricao,
+                                @RequestParam(required = false) String contato,
+                                @RequestParam(required = false) EnumAndamentoAdocao statusAdocao){
+        try{
+            adocaoService.alterarAdocao(id, foto, nomeAnimal, idadeEstimada, descricao, contato, statusAdocao);
+        } catch (Exception e){
+            throw new  IllegalArgumentException("Erro ao alterar Adocao: " + e.getMessage());
+        }
+
+        return "redirect:/adocao/home/detalhe/{id}";
     }
 }

@@ -3,9 +3,7 @@ package com.example.AminalReport.entities.formularios;
 import com.example.AminalReport.entities.enums.EnumAndamentoAdocao;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
-import jakarta.persistence.Column;
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
 @DiscriminatorValue("ADOCAO")
@@ -18,7 +16,8 @@ public class Adocao extends Formulario{
     private Integer idadeEstimada;
 
     @Column
-    private EnumAndamentoAdocao statusAdocao = EnumAndamentoAdocao.AGUARDANDO;
+    @Enumerated(EnumType.STRING)
+    private EnumAndamentoAdocao statusAdocao;
 
     //Construtores
     public Adocao () {}
