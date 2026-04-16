@@ -15,7 +15,6 @@ public class DenunciaService {
     @Autowired
     private DenunciaRepository denunciaRepository;
 
-    // Salvar denúncia
     public void saveDenuncia(Denuncia denuncia){
         denunciaRepository.save(denuncia);
     }

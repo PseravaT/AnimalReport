@@ -10,7 +10,6 @@ public interface DenunciaRepository extends JpaRepository<Denuncia, Long> {
 
     List<Denuncia> findByUsuarioCriador(Usuario user);
 
-    //ordenado pelo id = mais recente
     List<Denuncia> findAllByOrderByIdDesc();
 
 }
