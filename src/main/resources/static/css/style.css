@@ -616,4 +616,8 @@ hr {
     color: #fff !important;
 }
 
-
+.text-truncate-custom {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
