@@ -40,6 +40,9 @@ public class DenunciaService {
             if (denuncia.getPontoRef() != null) {
                 denunciaExistente.setPontoRef(denuncia.getPontoRef());
             }
+            if (denuncia.getFoto() != null){
+                denunciaExistente.setFoto(denuncia.getFoto());
+            }
         }
         denunciaRepository.save(denuncia);
     }

@@ -22,7 +22,7 @@
 
         <form th:action="@{/urgente}" method="POST" enctype="multipart/form-data" class="w-100">
 
-            <!--  UPLOAD DE FOTOS !-->
+            
             <div class="upload-box2 rounded mb-3 d-flex flex-column align-items-center justify-content-center text-secondary position-relative overflow-hidden" id="previewBox">
 
                 <div id="uploadPlaceholder" class="text-center">
@@ -94,7 +94,7 @@
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
 <script>
-    // 1. Lógica do Checkbox e Botão
+    
     const checkbox = document.getElementById('checkTermos');
     const botao = document.getElementById('btnSubmit');
 
@@ -102,7 +102,7 @@
         botao.disabled = !this.checked;
     });
 
-    // 2. Lógica da Máscara de Telefone (Requer jQuery importado no head)
+    
     $(document).ready(function(){
         var maskBehavior = function (val) {
                 return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
@@ -115,18 +115,18 @@
         $('#contato').mask(maskBehavior, options);
     });
 
-    // 3. Lógica do Preview de Imagem
+    
     const box = document.getElementById('previewBox');
     const input = document.getElementById('foto');
     const preview = document.getElementById('imagePreview');
     const placeholder = document.getElementById('uploadPlaceholder');
 
-    // Clique na caixa abre o seletor
+    
     box.addEventListener('click', function() {
         input.click();
     });
 
-    // Mudança no input mostra a imagem
+    
     input.addEventListener('change', function(event) {
         const arquivo = event.target.files[0];
         if (arquivo) {

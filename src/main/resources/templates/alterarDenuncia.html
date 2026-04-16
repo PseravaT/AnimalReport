@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>AR - Homepage</title>
+    <title>AR - Alterar Denúncia</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
@@ -19,27 +19,32 @@
         Denúncia
     </h2>
 
-    <!--    Formulário de cadastro de Denúncia   -->
+    
 
     <form th:action="@{/status/editar/{id}(id=${denuncia.id})}" method="POST" enctype="multipart/form-data"> >
-<!--        &lt;!&ndash;  UPLOAD DE FOTOS !&ndash;&gt;-->
-<!--        <div class="upload-box rounded mb-3 d-flex flex-column align-items-center justify-content-center text-secondary position-relative overflow-hidden" id="previewBox">-->
 
-<!--            <div id="uploadPlaceholder" class="text-center">-->
-<!--                <i class="bi bi-image" style="font-size: 4rem;"></i>-->
-<!--                <p class="m-0 small">Toque para adicionar foto</p>-->
-<!--            </div>-->
+        <div class="upload-box rounded mb-3 d-flex flex-column align-items-center justify-content-center text-secondary position-relative overflow-hidden" id="previewBox">
 
-<!--            <img id="imagePreview" src="" alt="Preview" style="display: none; width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">-->
+            <div id="uploadPlaceholder" class="text-center">
+                <i class="bi bi-image" style="font-size: 4rem;"></i>
+                <p class="m-0 small">Toque para adicionar foto</p>
+            </div>
 
-<!--            <input type="file" class="d-none" id="foto" name="foto" accept="image/*">-->
-<!--        </div>-->
+            <img    
+                id="imagePreview"
+                th:src="${denuncia.fotoBase64} != null ? 'data:image/jpeg;base64,' + ${denuncia.fotoBase64} : ''"
+                alt="Preview"
+                th:style="${denuncia.fotoBase64} != null ? 'display:block; width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0;' : 'display:none;'"
+            >
 
-        <!--        ENUM ANIMAIS    -->
+            <input type="file" class="d-none" id="foto" name="foto" accept="image/*">
+        </div>
+
+
         <div class="mb-3">
             <label for="tipoAnimal" class="form-label" style="color: #ffffff !important;">Tipo de Animais</label>
 
-            <select class="form-select" id="tipoAnimal" name="tipoAnimal" required>
+            <select class="form-select" id="tipoAnimal" name="tipoAnimal">
 
                 <option th:each="tipo : ${denuncia.tipoAnimal}"
                         th:value="${tipo}"
@@ -49,17 +54,16 @@
             </select>
         </div>
 
-<!--        Descrição -->
         <div class="mb-3">
             <label for="descricao"  class="visually-hidden"></label>
             <textarea class="form-control" id="descricao" name="descricao" rows="3" th:text="${denuncia.descricao}"></textarea>
         </div>
 
-        <!--        ENUM ESTIMATIVA DE RISCO    -->
+        
         <div class="mb-3">
             <label for="nivelUrgencia" class="form-label" style="color: #ffffff !important;">Estimativa de Risco</label>
 
-            <select class="form-select" id="nivelUrgencia" name="nivelUrgencia" required>
+            <select class="form-select" id="nivelUrgencia" name="nivelUrgencia" >
 
                 <option th:each="tipo : ${nivelUrgencias}"
                         th:value="${tipo}"
@@ -74,7 +78,6 @@
             Endereço
         </h4>
 
-<!--        ENDEREÇO    -->
         <div>
             <div class="row g-2 mb-3">
                 <div class="col-6">
@@ -163,36 +166,36 @@
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-<!-- script para chack mark-->
+
 <script>
     const checkbox = document.getElementById('checkTermos');
     const botao = document.getElementById('btnSubmit');
 
     checkbox.addEventListener('change', function() {
-        // Toggle simplificado
+        
         botao.disabled = !this.checked;
     });
 
-    // Clique na caixa de imagem simula clique no input file
+    
     document.querySelector('.upload-box').addEventListener('click', function() {
         document.getElementById('uploadImage').click();
     });
 </script>
 
-<!-- Script para carregar a imagem-->
+
 <script>
-    // Seleciona os elementos
+    
     const box = document.getElementById('previewBox');
     const input = document.getElementById('foto');
     const preview = document.getElementById('imagePreview');
     const placeholder = document.getElementById('uploadPlaceholder');
 
-    // 1. Clicar na caixa cinza abre o seletor de arquivos
+    
     box.addEventListener('click', function() {
         input.click();
     });
 
-    // 2. Quando o usuário escolhe uma foto, mostra ela na caixa
+    
     input.addEventListener('change', function(event) {
         const arquivo = event.target.files[0];
 
@@ -200,9 +203,10 @@
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                preview.src = e.target.result;  // Define a imagem
-                preview.style.display = 'block'; // Mostra a imagem
-                placeholder.style.display = 'none'; // Esconde o ícone/texto
+                preview.src = e.target.result;  
+                preview.style.display = 'block'; 
+                placeholder.style.display = 'none'; 
+                
             }
 
             reader.readAsDataURL(arquivo);
@@ -211,7 +215,7 @@
 </script>
 
 
-<!--CEP-->
+
 <script>
     document.addEventListener("DOMContentLoaded", function() {
 
@@ -227,7 +231,7 @@
                     return;
                 }
 
-                // Bloqueia botão e muda cursor
+                
                 btnBuscarCep.disabled = true;
                 document.body.style.cursor = 'wait';
 
@@ -236,25 +240,22 @@
                     const data = await response.json();
 
                     if (!data.erro) {
-                        // AGORA VAI FUNCIONAR:
-                        // Os IDs do seu HTML são iguais aos dados que chegam do ViaCEP
-
-                        // HTML id="uf" recebe data.uf
+                        
                         if(document.getElementById("uf")) {
                             document.getElementById("uf").value = data.uf;
                         }
 
-                        // HTML id="localidade" recebe data.localidade
+                        
                         if(document.getElementById("localidade")) {
                             document.getElementById("localidade").value = data.localidade;
                         }
 
-                        // HTML id="bairro" recebe data.bairro
+                        
                         if(document.getElementById("bairro")) {
                             document.getElementById("bairro").value = data.bairro;
                         }
 
-                        // HTML id="logradouro" recebe data.logradouro
+                        
                         if(document.getElementById("logradouro")) {
                             document.getElementById("logradouro").value = data.logradouro;
                         }

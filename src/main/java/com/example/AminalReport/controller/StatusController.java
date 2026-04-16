@@ -37,7 +37,7 @@ public class StatusController {
     @GetMapping("/status")
     public String status(Model model, Principal principal) {
 
-        // 1. Carregar dados do usuário logado (se houver)
+
         if (principal != null) {
             String email = principal.getName();
             Usuario usuario = userRepository.findByEmail(email).orElse(null);
@@ -48,7 +48,7 @@ public class StatusController {
         return "status";
     }
 
-    // --- PÁGINA DE DETALHES (GET) ---
+
     @GetMapping("/status/detalhe/{id}")
     @Transactional(readOnly = true)
     public String verDetalhes(@PathVariable("id") Long id, Model model) {
@@ -59,9 +59,9 @@ public class StatusController {
             Denuncia denuncia = denunciaOpt.get();
             model.addAttribute("denuncia", denuncia);
 
-            // --- AQUI ESTÁ A MÁGICA ---
-            model.addAttribute("voltarPara", "/status"); // Define que volta para Status
-            // ---------------------------
+
+            model.addAttribute("voltarPara", "/status");
+
 
             if (denuncia.getFoto() != null && denuncia.getFoto().length > 0) {
                 String imagemBase64 = Base64.getEncoder().encodeToString(denuncia.getFoto());
@@ -91,9 +91,9 @@ public class StatusController {
 
     @PostMapping("/status/editar/{id}")
     public String atualizarDenuncia(@PathVariable("id") Long id,
-                                    @RequestParam("descricao") String descricao,
-                                    @RequestParam("nivelUrgencia") EnumNivelUrgencia urgencia,
-                                    @RequestParam("pontoRef") String pontoRef,
+                                    @RequestParam(value = "descricao", required = false) String descricao,
+                                    @RequestParam(value = "nivelUrgencia", required = false) EnumNivelUrgencia urgencia,
+                                    @RequestParam(value = "pontoRef", required = false) String pontoRef,
                                     @RequestParam(value = "foto", required = false) MultipartFile foto) {
         Denuncia denuncia = denunciaService.buscarPorId(id)
                 .orElseThrow(() -> new IllegalArgumentException("Denúncia não encontrada: " + id));

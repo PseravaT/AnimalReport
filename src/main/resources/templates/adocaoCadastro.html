@@ -3,7 +3,7 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>AR - Homepage</title>
+    <title>AR - Cadastrar Adoção</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
@@ -18,11 +18,11 @@
         Cadastrar Adoção
     </h2>
 
-    <!--    Formulário de cadastro de Adoção   -->
+    
 
     <form th:action="@{/adocao/cadastrar}" class="form_format" method="POST" enctype="multipart/form-data"> >
 
-        <!--  UPLOAD DE FOTOS !-->
+        
         <div class="upload-box rounded mb-3 d-flex flex-column align-items-center justify-content-center text-secondary position-relative overflow-hidden" id="previewBox">
 
             <div id="uploadPlaceholder" class="text-center">
@@ -35,7 +35,7 @@
             <input type="file" class="d-none" id="foto" name="foto" accept="image/*">
         </div>
 
-        <!--        ENUM ANIMAIS    -->
+        
         <div class="mb-3">
             <label for="tipoAnimal" class="form-label" style="color: #ffffff !important;">Tipo de Animais</label>
 
@@ -48,7 +48,7 @@
                 </option>
             </select>
         </div>
-        <!--        Nome Animal -->
+        
         <div class="mb-3">
             <input type="text" class="form-control" name="nomeAnimal" id="nomeAnimal" placeholder="Nome provisório do animal" required>
         </div>
@@ -59,7 +59,7 @@
            if(this.value !== '' && parseInt(this.value) > 20) this.value = 20;
        " class="form-control" name="idadeEstimada" id="idadeEstimada" placeholder="Idade estimada do animal" required>
         </div>
-        <!--        Descrição -->
+        
         <div class="mb-3">
             <textarea class="form-control" id="descricao"  name="descricao" rows="3" placeholder="Descrição"></textarea>
         </div>
@@ -86,7 +86,7 @@
 </div>
 
 
-<!--    Termo de Denuncia   -->
+
 <div class="modal fade modal-termos-custom" id="modalTermos" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg"> <div class="modal-content border-0 rounded-4 overflow-hidden">
 
@@ -119,16 +119,16 @@
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-<!-- script para chack mark-->
+
 <script>
     const checkbox = document.getElementById('checkTermos');
     const botao = document.getElementById('btnSubmit');
 
     checkbox.addEventListener('change', function() {
-        // Toggle simplificado
+        
         botao.disabled = !this.checked;
     });
-// Telefone
+    
     $(document).ready(function(){
         var maskBehavior = function (val) {
                 return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-00009';
@@ -142,26 +142,26 @@
     });
 
 
-    // Clique na caixa de imagem simula clique no input file
+    
     document.querySelector('.upload-box').addEventListener('click', function() {
         document.getElementById('uploadImage').click();
     });
 </script>
 
-<!-- Script para carregar a imagem-->
+
 <script>
-    // Seleciona os elementos
+    
     const box = document.getElementById('previewBox');
     const input = document.getElementById('foto');
     const preview = document.getElementById('imagePreview');
     const placeholder = document.getElementById('uploadPlaceholder');
 
-    // 1. Clicar na caixa cinza abre o seletor de arquivos
+    
     box.addEventListener('click', function() {
         input.click();
     });
 
-    // 2. Quando o usuário escolhe uma foto, mostra ela na caixa
+    
     input.addEventListener('change', function(event) {
         const arquivo = event.target.files[0];
 
@@ -169,9 +169,10 @@
             const reader = new FileReader();
 
             reader.onload = function(e) {
-                preview.src = e.target.result;  // Define a imagem
-                preview.style.display = 'block'; // Mostra a imagem
-                placeholder.style.display = 'none'; // Esconde o ícone/texto
+                preview.src = e.target.result;  
+                preview.style.display = 'block'; 
+                placeholder.style.display = 'none'; 
+                
             }
 
             reader.readAsDataURL(arquivo);

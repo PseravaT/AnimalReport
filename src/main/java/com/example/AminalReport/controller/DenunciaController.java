@@ -30,13 +30,12 @@ public class DenunciaController {
     private UserRepository userRepository;
 
 
-    // --- PÁGINA DE DENÚNCIA PADRÃO (GET) ---
     @GetMapping("/denuncia")
     public String denuncia() {
         return "denuncia";
     }
 
-    // --- SALVAR DENÚNCIA PADRÃO (POST) ---
+
     @PostMapping("/denuncia")
     public String denuncia(
             @RequestParam MultipartFile foto,
@@ -49,11 +48,10 @@ public class DenunciaController {
             @RequestParam String bairro,
             @RequestParam String rua,
             @RequestParam String pontoRef,
-            Principal principal) throws IOException { // Adicionei Principal aqui caso queira vincular o autor
+            Principal principal) throws IOException {
 
         Denuncia denuncia = new Denuncia();
 
-        // Se estiver logado, vincula o usuário à denúncia
         if (principal != null) {
             Usuario usuario = userRepository.findByEmail(principal.getName()).orElse(null);
             denuncia.setUsuarioCriador(usuario);
@@ -81,7 +79,6 @@ public class DenunciaController {
         return "redirect:/";
     }
 
-    // --- PÁGINA DE DETALHES (GET) ---
     @GetMapping("/denuncias/detalhe/{id}")
     @Transactional(readOnly = true)
     public String verDetalhes(@PathVariable("id") Long id, Model model) {
@@ -92,9 +89,9 @@ public class DenunciaController {
             Denuncia denuncia = denunciaOpt.get();
             model.addAttribute("denuncia", denuncia);
 
-            // --- AQUI ESTÁ A MÁGICA ---
-            model.addAttribute("voltarPara", "/home"); // Define que volta para Home
-            // ---------------------------
+
+            model.addAttribute("voltarPara", "/home");
+
 
             if (denuncia.getFoto() != null && denuncia.getFoto().length > 0) {
                 String imagemBase64 = Base64.getEncoder().encodeToString(denuncia.getFoto());
@@ -107,13 +104,13 @@ public class DenunciaController {
         return "redirect:/";
     }
 
-    // --- PÁGINA DE DENÚNCIA URGENTE (GET) ---
+
     @GetMapping("/urgente")
     public String denunciaUrgente() {
         return "urgente";
     }
 
-    // --- SALVAR DENÚNCIA URGENTE (POST) ---
+
     @PostMapping("/urgente")
     public String denunciaUrgente(
             @RequestParam MultipartFile foto,
@@ -136,7 +133,7 @@ public class DenunciaController {
         denuncia.setTipoAnimal(tipoAnimal);
         denuncia.setDescricao(descricao);
 
-        // Valores padrão para validação
+
         denuncia.setBairro("URGÊNCIA");
         denuncia.setEstado("URGÊNCIA");
         denuncia.setMunicipio("URGÊNCIA");
