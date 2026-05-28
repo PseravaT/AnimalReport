@@ -1771,3 +1771,15 @@ body{
         min-height: 140px;
     }
 }
+
+.carousel-image {
+    width: 100%;
+    height: 60vh;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .carousel-image {
+        height: 40vh;
+    }
+}

@@ -49,16 +49,28 @@ public class StatusController {
             String email = principal.getName();
             Usuario usuario = userRepository.findByEmail(email).orElse(null);
 
-            List<Denuncia> listaDenuncias = denunciaRepository.findByUsuarioCriador(usuario);
-            model.addAttribute("denuncias", listaDenuncias);
+            String tipoUsuario = usuario.getTipoUsuario();
+
+            if (tipoUsuario.equals("Comum")){
+
+                List<Denuncia> listaDenuncias = denunciaRepository.findByUsuarioCriador(usuario);
+                model.addAttribute("denuncias", listaDenuncias);
+
+            }
+
+            if (tipoUsuario.equals("Organizacao")){
+                List<Denuncia> listaDenuncias = denunciaRepository.findByOrganizacaoResponsavel(usuario);
+                model.addAttribute("denuncias", listaDenuncias);
+            }
         }
+
         return "status";
     }
 
 
     @GetMapping("/status/detalhe/{id}")
     @Transactional(readOnly = true)
-    public String verDetalhes(@PathVariable("id") Long id, Model model) {
+    public String verDetalhes(@PathVariable("id") Long id, Model model, Principal principal) {
 
         Optional<Denuncia> denunciaOpt = denunciaService.buscarPorId(id);
 
@@ -84,6 +96,7 @@ public class StatusController {
                         "/images/sem-foto.jpg"
                 );
             }
+
             return "detalhe";
         }
         return "redirect:/status";

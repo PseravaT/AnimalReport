@@ -1,6 +1,7 @@
 package com.example.AminalReport.service;
 
 import com.example.AminalReport.entities.formularios.Denuncia;
+import com.example.AminalReport.entities.usuarios.Organizacao;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.repository.formularios.DenunciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,21 @@ public class DenunciaService {
             }
 
             denunciaRepository.save(denunciaExistente);
+        }
+    }
+
+    public void assumirDenuncia(Long idDenuncia, Organizacao organizacao) {
+
+        Optional<Denuncia> denunciaOpt =
+                denunciaRepository.findById(idDenuncia);
+
+        if (denunciaOpt.isPresent()) {
+
+            Denuncia denuncia = denunciaOpt.get();
+
+            denuncia.setOrganizacaoResponsavel(organizacao);
+
+            denunciaRepository.save(denuncia);
         }
     }
 }

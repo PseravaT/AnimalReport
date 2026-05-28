@@ -15,4 +15,6 @@ public interface AdocaoRepository extends JpaRepository<Adocao, Long> {
     List<Adocao> findAllByOrderByIdDesc();
 
     List<Adocao> findByUsuarioCriador(Usuario usuarioCriador);
+
+    List<Adocao> findTop5ByOrderByIdDesc();
 }

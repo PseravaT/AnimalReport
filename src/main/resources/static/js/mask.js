@@ -115,4 +115,21 @@ if (emailInput) {
 
     });
 
+    const inscricaoEstadualInput = document.getElementById('inscricaoEstadual');
+
+    if (inscricaoEstadualInput) {
+
+        inscricaoEstadualInput.addEventListener('input', function (e) {
+
+            let valor = e.target.value.replace(/\D/g, '');
+
+            // LIMITE -> 14 números
+            valor = valor.slice(0, 14);
+
+            e.target.value = valor;
+
+        });
+
+    }
+
 }

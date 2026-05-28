@@ -72,6 +72,34 @@
 
                     </div>
 
+                    <!-- BOTÃO ASSUMIR DENÚNCIA -->
+
+                    <div th:if="${usuarioLogado.tipoUsuario == 'Organizacao' && denuncia.organizacaoResponsavel == null}"
+                         class="mt-4 text-center">
+
+                        <form th:action="@{/denuncia/assumir/{id}(id=${denuncia.id})}"
+                              method="post">
+
+                            <button type="submit"
+                                    class="btn btn-success btn-lg px-4 rounded-pill">
+
+                                <i class="bi bi-check-circle me-2"></i>
+                                Assumir Denúncia
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                    <div th:if="${denuncia.organizacaoResponsavel != null}"
+                         class="alert alert-success mt-4">
+
+                        <strong>Responsável:</strong>
+                        <span th:text="${denuncia.organizacaoResponsavel.nome}"></span>
+
+                    </div>
+
                 </div>
 
                 <!-- INFORMAÇÕES -->

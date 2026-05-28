@@ -4,11 +4,14 @@ import com.example.AminalReport.entities.enums.EnumAndamentoDenuncia;
 import com.example.AminalReport.entities.enums.EnumNivelUrgencia;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.formularios.Denuncia;
+import com.example.AminalReport.entities.usuarios.Organizacao;
 import com.example.AminalReport.entities.usuarios.Usuario;
+import com.example.AminalReport.repository.usuarios.OrganizacaoRepository;
 import com.example.AminalReport.repository.usuarios.UserRepository;
 import com.example.AminalReport.service.DenunciaService;
 import com.example.AminalReport.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -31,6 +34,9 @@ public class DenunciaController {
 
     @Autowired
     private UploadService uploadService;
+
+    @Autowired
+    private OrganizacaoRepository organizacaoRepository;
 
 
 
@@ -152,6 +158,17 @@ public class DenunciaController {
         denunciaService.saveDenuncia(denuncia);
 
         return "redirect:/";
+    }
+
+    @PostMapping("/denuncia/assumir/{id}")
+    public String assumirDenuncia(@PathVariable Long id,
+                                  Principal principal ) {
+
+        Organizacao org = organizacaoRepository.findByEmail(principal.getName()).orElse(null);
+
+        denunciaService.assumirDenuncia(id, org);
+
+        return "redirect:/status";
     }
 
 }
