@@ -17,7 +17,7 @@ public class Comum extends Usuario{
 
     public Comum () {}
 
-    public Comum(String nome, String email, String telefone, String senha, LocalDateTime dataCadastro, EnumStatusUsuario statusUsuario, byte[] foto, String cpf) {
+    public Comum(String nome, String email, String telefone, String senha, LocalDateTime dataCadastro, EnumStatusUsuario statusUsuario, String foto, String cpf) {
         super(nome, email, telefone, senha, dataCadastro, statusUsuario, foto);
         this.cpf = cpf;
     }

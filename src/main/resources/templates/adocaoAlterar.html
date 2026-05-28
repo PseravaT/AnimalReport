@@ -70,7 +70,7 @@
 
                 <div id="uploadPlaceholder"
                      class="text-center"
-                     th:style="${adocao.fotoBase64 != null} ? 'display:none;' : ''">
+                     th:style="${adocao.foto != null} ? 'display:none;' : ''">
 
                     <i class="bi bi-image upload-icon"></i>
 
@@ -80,11 +80,11 @@
 
                 </div>
 
-                <img id="imagePreview"
-                     th:src="${adocao.fotoBase64} != null ? 'data:image/jpeg;base64,' + ${adocao.fotoBase64} : ''"
-                     alt="Preview"
+                <img th:src="${imagemDetalhe}"
+                     id="imagePreview"
                      class="upload-preview"
-                     th:style="${adocao.fotoBase64} != null ? 'display:block;' : 'display:none;'">
+                     alt="Foto do Animal"
+                     th:style="${adocao.foto != null} ? 'display:block;' : 'display:none;'">
 
                 <input type="file"
                        class="d-none"
@@ -105,7 +105,8 @@
 
                 <select class="form-select form-select-custom"
                         id="tipoAnimal"
-                        name="tipoAnimal">
+                        name="tipoAnimal"
+                        disabled>
 
                     <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumTipoAnimal).values()}"
                             th:value="${tipo}"

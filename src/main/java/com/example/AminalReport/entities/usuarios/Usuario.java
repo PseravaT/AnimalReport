@@ -2,8 +2,6 @@ package com.example.AminalReport.entities.usuarios;
 
 import com.example.AminalReport.entities.enums.EnumStatusUsuario;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -40,23 +38,21 @@ public class Usuario implements UserDetails {
     @Enumerated(EnumType.STRING)
     private EnumStatusUsuario statusUsuario;
 
-    @Column(columnDefinition = "BYTEA")
-    @Lob
-    @JdbcTypeCode(SqlTypes.BINARY)
-    private byte[] foto;
+    @Column
+    private String fotoPath;
 
     //Construtores
 
     public Usuario(){}
 
-    public Usuario(String nome, String email, String telefone, String senha, LocalDateTime dataCadastro, EnumStatusUsuario statusUsuario, byte[] foto) {
+    public Usuario(String nome, String email, String telefone, String senha, LocalDateTime dataCadastro, EnumStatusUsuario statusUsuario, String fotoPath) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.senha = senha;
         this.dataCadastro = dataCadastro;
         this.statusUsuario = statusUsuario;
-        this.foto = foto;
+        this.fotoPath = fotoPath;
     }
 
     //Getters e Setters
@@ -114,12 +110,12 @@ public class Usuario implements UserDetails {
         this.statusUsuario = statusUsuario;
     }
 
-    public byte[] getFoto() {
-        return foto;
+    public String getFoto() {
+        return fotoPath;
     }
 
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
+    public void setFoto(String fotoPath) {
+        this.fotoPath = fotoPath;
     }
 
     @Override

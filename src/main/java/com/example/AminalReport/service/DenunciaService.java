@@ -30,19 +30,28 @@ public class DenunciaService {
 
     public void editarDenuncia(Denuncia denuncia){
         Optional<Denuncia> denunciaOpt = denunciaRepository.findById(denuncia.getId());
+
         if (denunciaOpt.isPresent()) {
+
             Denuncia denunciaExistente = denunciaOpt.get();
+
             if (denuncia.getDescricao() != null){
                 denunciaExistente.setDescricao(denuncia.getDescricao());
             }
-            denunciaExistente.setUrgencia(denuncia.getUrgencia());
+
+            if (denuncia.getUrgencia() != null){
+                denunciaExistente.setUrgencia(denuncia.getUrgencia());
+            }
+
             if (denuncia.getPontoRef() != null) {
                 denunciaExistente.setPontoRef(denuncia.getPontoRef());
             }
+
             if (denuncia.getFoto() != null){
                 denunciaExistente.setFoto(denuncia.getFoto());
             }
+
+            denunciaRepository.save(denunciaExistente);
         }
-        denunciaRepository.save(denuncia);
     }
 }

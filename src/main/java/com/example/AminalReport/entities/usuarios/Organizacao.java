@@ -24,7 +24,7 @@ public class Organizacao extends Usuario{
 
     public Organizacao () {}
 
-    public Organizacao(String nome, String email, String telefone, String senha, LocalDateTime dataCadastro, EnumStatusUsuario statusUsuario, byte[] foto, String cnpj, String inscricaoEstadual, EnumTipoOrg tipoOrg) {
+    public Organizacao(String nome, String email, String telefone, String senha, LocalDateTime dataCadastro, EnumStatusUsuario statusUsuario, String foto, String cnpj, String inscricaoEstadual, EnumTipoOrg tipoOrg) {
         super(nome, email, telefone, senha, dataCadastro, statusUsuario, foto);
         this.cnpj = cnpj;
         this.inscricaoEstadual = inscricaoEstadual;

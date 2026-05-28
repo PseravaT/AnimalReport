@@ -3,9 +3,6 @@ package com.example.AminalReport.entities.formularios;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-import java.util.Base64;
 
 
 @Entity
@@ -17,10 +14,8 @@ public class Formulario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "BYTEA")
-    @Lob
-    @JdbcTypeCode(SqlTypes.BINARY)
-    private byte[] foto;
+    @Column
+    private String fotoPath;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -39,8 +34,8 @@ public class Formulario {
     //Construtores
     public Formulario () {}
 
-    public Formulario(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String contato) {
-        this.foto = foto;
+    public Formulario(String fotoPath, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String contato) {
+        this.fotoPath = fotoPath;
         this.tipoAnimal = tipoAnimal;
         this.descricao = descricao;
         this.usuarioCriador = usuarioCriador;
@@ -53,12 +48,12 @@ public class Formulario {
         return id;
     }
 
-    public byte[] getFoto() {
-        return foto;
+    public String getFoto() {
+        return fotoPath;
     }
 
-    public void setFoto(byte[] foto) {
-        this.foto = foto;
+    public void setFoto(String foto) {
+        this.fotoPath = foto;
     }
 
     public EnumTipoAnimal getTipoAnimal() {
@@ -88,12 +83,5 @@ public class Formulario {
     public String getContato() { return contato; }
 
     public void setContato (String contato) {this.contato = contato; }
-
-    public String getFotoBase64() {
-        if (this.getFoto() != null && this.getFoto().length > 0) {
-            return Base64.getEncoder().encodeToString(this.getFoto());
-        }
-        return null;
-    }
 }
 

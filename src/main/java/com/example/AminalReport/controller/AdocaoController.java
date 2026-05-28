@@ -1,14 +1,13 @@
 package com.example.AminalReport.controller;
 
 import com.example.AminalReport.entities.enums.EnumAndamentoAdocao;
-import com.example.AminalReport.entities.enums.EnumAndamentoDenuncia;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.formularios.Adocao;
-import com.example.AminalReport.entities.formularios.Denuncia;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.repository.formularios.AdocaoRepository;
 import com.example.AminalReport.repository.usuarios.UserRepository;
 import com.example.AminalReport.service.AdocaoService;
+import com.example.AminalReport.service.UploadService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,10 +35,13 @@ public class AdocaoController {
 
     private final UserRepository userRepository;
 
-    public AdocaoController(AdocaoRepository adocaoRepository,  AdocaoService adocaoService,  UserRepository userRepository) {
+    private final UploadService uploadService;
+
+    public AdocaoController(AdocaoRepository adocaoRepository,  AdocaoService adocaoService,  UserRepository userRepository,  UploadService uploadService) {
         this.adocaoRepository = adocaoRepository;
         this.adocaoService = adocaoService;
         this.userRepository = userRepository;
+        this.uploadService = uploadService;
     }
 
     @GetMapping("/cadastrar")
@@ -72,11 +73,9 @@ public class AdocaoController {
             adocao.setIdadeEstimada(idadeEstimadaInt);
             adocao.setDescricao(descricao);
 
-            byte[] fotoBytes = null;
-            if (!foto.isEmpty()) {
-                fotoBytes = foto.getBytes();
-            }
-            adocao.setFoto(fotoBytes);
+            String caminhoFoto = uploadService.salvarImagem(foto, "adocao");
+
+            adocao.setFoto(caminhoFoto);
             adocao.setTipoAnimal(tipoAnimal);
             adocao.setContato(contato);
 
@@ -98,6 +97,7 @@ public class AdocaoController {
         model.addAttribute("currentPage", pagina);
         model.addAttribute("totalPages", adocaoPage.getTotalPages());
 
+
         return "adocaoHome";
     }
 
@@ -113,12 +113,19 @@ public class AdocaoController {
 
             model.addAttribute("voltarPara", "/adocao/home");
 
-            if (adocao.getFoto() != null && adocao.getFoto().length > 0) {
-                String imagemBase64 = Base64.getEncoder().encodeToString(adocao.getFoto());
-                model.addAttribute("imagemDetalhe", "data:image/jpeg;base64," + imagemBase64);
-            }
-            else {
-                model.addAttribute("imagemDetalhe", "/images/sem-foto.jpg");
+            if (adocao.getFoto() != null && !adocao.getFoto().isBlank()) {
+
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/uploads/" + adocao.getFoto()
+                );
+
+            } else {
+
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/images/sem-foto.jpg"
+                );
             }
             return "adocaoDetalhe";
         }
@@ -146,6 +153,21 @@ public class AdocaoController {
         List<EnumAndamentoAdocao> statusExistentes = Arrays.asList(EnumAndamentoAdocao.values());
         model.addAttribute("statusExistentes", statusExistentes);
 
+        if (adocao.getFoto() != null && !adocao.getFoto().isBlank()) {
+
+            model.addAttribute(
+                    "imagemDetalhe",
+                    "/uploads/" + adocao.getFoto()
+            );
+
+        } else {
+
+            model.addAttribute(
+                    "imagemDetalhe",
+                    "/images/sem-foto.jpg"
+            );
+        }
+
         return "adocaoAlterar";
     }
 
@@ -157,10 +179,12 @@ public class AdocaoController {
                                 @RequestParam(required = false) String descricao,
                                 @RequestParam(required = false) String contato,
                                 @RequestParam(required = false) EnumAndamentoAdocao statusAdocao){
+
         try{
+            System.out.println("ENTREI NO TRY PARA ALTERAR");
             adocaoService.alterarAdocao(id, foto, nomeAnimal, idadeEstimada, descricao, contato, statusAdocao);
-        } catch (Exception e){
-            throw new  IllegalArgumentException("Erro ao alterar Adocao: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
 
         return "redirect:/adocao/home/detalhe/{id}";

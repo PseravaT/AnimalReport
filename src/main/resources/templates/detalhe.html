@@ -110,7 +110,7 @@
 
                             <div class="detail-field">
 
-                                <span th:text="${denuncia.tipoAnimal}">
+                                <span th:text="${denuncia.tipoAnimal.descricao}">
                                     Tipo
                                 </span>
 
@@ -252,19 +252,6 @@
                             </div>
 
                         </div>
-
-                    </div>
-
-                    <!-- ID -->
-
-                    <div class="detail-id-box mt-4">
-
-                        <small>
-
-                            ID da Denúncia:
-                            <span th:text="${denuncia.id}"></span>
-
-                        </small>
 
                     </div>
 

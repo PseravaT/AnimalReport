@@ -7,6 +7,7 @@ import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.repository.formularios.DenunciaRepository;
 import com.example.AminalReport.repository.usuarios.UserRepository; // Confirme se o pacote do repository é este mesmo ou .repositories
 import com.example.AminalReport.service.DenunciaService;
+import com.example.AminalReport.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +34,12 @@ public class StatusController {
 
     @Autowired
     private DenunciaService denunciaService;
+
+    @Autowired
+    private UploadService uploadService;
+
+
+
 
     @GetMapping("/status")
     public String status(Model model, Principal principal) {
@@ -63,11 +70,19 @@ public class StatusController {
             model.addAttribute("voltarPara", "/status");
 
 
-            if (denuncia.getFoto() != null && denuncia.getFoto().length > 0) {
-                String imagemBase64 = Base64.getEncoder().encodeToString(denuncia.getFoto());
-                model.addAttribute("imagemDetalhe", "data:image/jpeg;base64," + imagemBase64);
+            if (denuncia.getFoto() != null && !denuncia.getFoto().isBlank()) {
+
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/uploads/" + denuncia.getFoto()
+                );
+
             } else {
-                model.addAttribute("imagemDetalhe", "/images/sem-foto.jpg");
+
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/images/sem-foto.jpg"
+                );
             }
             return "detalhe";
         }
@@ -83,6 +98,21 @@ public class StatusController {
 
             List<EnumNivelUrgencia> nivelUrgencias = Arrays.asList(EnumNivelUrgencia.values());
                 model.addAttribute("nivelUrgencias", nivelUrgencias);
+
+            if (denuncia.getFoto() != null && !denuncia.getFoto().isBlank()) {
+
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/uploads/" + denuncia.getFoto()
+                );
+
+            } else {
+
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/images/sem-foto.jpg"
+                );
+            }
             return "alterarDenuncia";
 
         }
@@ -98,15 +128,33 @@ public class StatusController {
         Denuncia denuncia = denunciaService.buscarPorId(id)
                 .orElseThrow(() -> new IllegalArgumentException("Denúncia não encontrada: " + id));
 
-        denuncia.setDescricao(descricao);
-        denuncia.setUrgencia(urgencia);
-        denuncia.setPontoRef(pontoRef);
+        if (descricao != null && !descricao.isBlank()) {
+            denuncia.setDescricao(descricao);
+        }
+
+        if (urgencia != null) {
+            denuncia.setUrgencia(urgencia);
+        }
+
+        if (pontoRef != null && !pontoRef.isBlank()) {
+            denuncia.setPontoRef(pontoRef);
+        }
 
         if (foto != null && !foto.isEmpty()) {
+
             try {
-                denuncia.setFoto(foto.getBytes());
+
+
+                String caminhoFoto = uploadService.salvarImagem(foto, "denuncia");
+
+                denuncia.setFoto(caminhoFoto);
+
             } catch (java.io.IOException e) {
-                throw new IllegalStateException("Erro ao processar a foto da denúncia", e);
+
+                throw new IllegalStateException(
+                        "Erro ao salvar imagem da denúncia",
+                        e
+                );
             }
         }
 

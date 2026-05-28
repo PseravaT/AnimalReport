@@ -22,7 +22,7 @@ public class HomeController {
     public String home(Model model, Principal principal) {
 
 
-        // 2. Carregar lista de denúncias ordenadas
+
         List<Denuncia> listaDenuncias = denunciaRepository.findAllByOrderByIdDesc();
         model.addAttribute("denuncias", listaDenuncias);
 

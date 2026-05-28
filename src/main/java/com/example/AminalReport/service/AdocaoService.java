@@ -17,6 +17,9 @@ public class AdocaoService {
     @Autowired
     private AdocaoRepository adocaoRepository;
 
+    @Autowired
+    private UploadService uploadService;
+
     public void cadastrarAdocao(Adocao adocao){
         Optional<Adocao> adocaoExistente = adocaoRepository.findByNomeAnimalAndUsuarioCriador(adocao.getNomeAnimal(), adocao.getUsuarioCriador());
 
@@ -34,20 +37,24 @@ public class AdocaoService {
 
     public void alterarAdocao(Long id, MultipartFile foto, String nomeAnimal, Integer idadeEstimada, String descricao, String contato, EnumAndamentoAdocao status) throws IOException {
         Optional<Adocao> adocao = adocaoRepository.findById(id);
+
         if (adocao.isPresent()){
-            if (!foto.isEmpty()){
-                adocao.get().setFoto(foto.getBytes());
+            if (foto != null && !foto.isEmpty()) {
+
+                String caminhoFoto = uploadService.salvarImagem(foto, "adocao");
+
+                adocao.get().setFoto(caminhoFoto);
             }
-            if(!nomeAnimal.isBlank()){
+            if(nomeAnimal != null && !nomeAnimal.isBlank()){
                 adocao.get().setNomeAnimal(nomeAnimal);
             }
             if(idadeEstimada != null && idadeEstimada > 0) {
                 adocao.get().setIdadeEstimada(idadeEstimada);
             }
-            if(!descricao.isBlank()){
+            if(descricao != null && !descricao.isBlank()){
                 adocao.get().setDescricao(descricao);
             }
-            if(!contato.isBlank()){
+            if(contato != null && !contato.isBlank()){
                 adocao.get().setContato(contato);
             }
             if(status != null){

@@ -115,16 +115,7 @@ public class LoginController {
         usuario.setSenha(senha);
         usuario.setDataCadastro(java.time.LocalDateTime.now());
         usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);
-        try {
-            java.io.InputStream is = getClass().getResourceAsStream("/static/images/perfilPadrao.jpg");
-
-            if (is != null){
-                usuario.setFoto(is.readAllBytes());
-                is.close();
-            }
-        } catch (java.io.IOException e){
-            e.printStackTrace();
-        }
+        usuario.setFoto(null);
 
 //        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
 
@@ -165,16 +156,7 @@ public class LoginController {
         usuario.setSenha(senha);
         usuario.setDataCadastro(java.time.LocalDateTime.now());
         usuario.setStatusUsuario(EnumStatusUsuario.ATIVO);
-        try {
-            java.io.InputStream is = getClass().getResourceAsStream("/static/images/perfilPadrao.jpg");
-
-            if (is != null){
-                usuario.setFoto(is.readAllBytes());
-                is.close();
-            }
-        } catch (java.io.IOException e){
-            e.printStackTrace();
-        }
+        usuario.setFoto(null);
 
 //        if (senha.length() < 8 || senha.matches(".[A-Z].") ||!senha.equals(confirmar_senha)) {
 //            // Redireciona de volta para o registro com um parâmetro de erro

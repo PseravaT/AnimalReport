@@ -5,8 +5,9 @@ import com.example.AminalReport.entities.enums.EnumNivelUrgencia;
 import com.example.AminalReport.entities.enums.EnumTipoAnimal;
 import com.example.AminalReport.entities.formularios.Denuncia;
 import com.example.AminalReport.entities.usuarios.Usuario;
-import com.example.AminalReport.repository.usuarios.UserRepository; // Confirme se o pacote do repository é este mesmo ou .repositories
+import com.example.AminalReport.repository.usuarios.UserRepository;
 import com.example.AminalReport.service.DenunciaService;
+import com.example.AminalReport.service.UploadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.Base64;
 import java.util.Optional;
 
 @Controller
@@ -28,6 +28,10 @@ public class DenunciaController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UploadService uploadService;
+
 
 
     @GetMapping("/denuncia")
@@ -57,12 +61,9 @@ public class DenunciaController {
             denuncia.setUsuarioCriador(usuario);
         }
 
-        byte[] fotoBytes = null;
-        if (!foto.isEmpty()) {
-            fotoBytes = foto.getBytes();
-        }
+        String caminhoFoto = uploadService.salvarImagem(foto, "denuncia");
 
-        denuncia.setFoto(fotoBytes);
+        denuncia.setFoto(caminhoFoto);
         denuncia.setTipoAnimal(tipoAnimal);
         denuncia.setDescricao(descricao);
         denuncia.setUrgencia(nivelUrgencia);
@@ -93,11 +94,16 @@ public class DenunciaController {
             model.addAttribute("voltarPara", "/home");
 
 
-            if (denuncia.getFoto() != null && denuncia.getFoto().length > 0) {
-                String imagemBase64 = Base64.getEncoder().encodeToString(denuncia.getFoto());
-                model.addAttribute("imagemDetalhe", "data:image/jpeg;base64," + imagemBase64);
+            if (denuncia.getFoto() != null) {
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/uploads/" + denuncia.getFoto()
+                );
             } else {
-                model.addAttribute("imagemDetalhe", "/images/sem-foto.jpg");
+                model.addAttribute(
+                        "imagemDetalhe",
+                        "/images/sem-foto.jpg"
+                );
             }
             return "detalhe";
         }
@@ -126,9 +132,9 @@ public class DenunciaController {
             denuncia.setUsuarioCriador(usuario);
         }
 
-        if (!foto.isEmpty()) {
-            denuncia.setFoto(foto.getBytes());
-        }
+        String caminhoFoto = uploadService.salvarImagem(foto, "denuncia");
+
+        denuncia.setFoto(caminhoFoto);
 
         denuncia.setTipoAnimal(tipoAnimal);
         denuncia.setDescricao(descricao);

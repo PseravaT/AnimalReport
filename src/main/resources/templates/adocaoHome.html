@@ -50,11 +50,15 @@
                     <!-- FOTO -->
                     <div class="foto-moldura">
 
-                        <img th:if="${a.fotoBase64 != null}"
-                             th:src="'data:image/jpeg;base64,' + ${a.fotoBase64}" />
+                        <img th:if="${a.foto != null}"
+                             th:src="@{'/uploads/' + ${a.foto}}"
+                             class="detail-image"
+                             alt="Foto do Animal">
 
-                        <img th:unless="${a.fotoBase64 != null}"
-                             th:src="@{/images/sem-foto.jpg}" />
+                        <img th:unless="${a.foto != null}"
+                             th:src="@{/images/sem-foto.jpg}"
+                             class="detail-image"
+                             alt="Sem foto">
 
                     </div>
 

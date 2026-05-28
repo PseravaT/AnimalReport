@@ -23,7 +23,7 @@ public class Adocao extends Formulario{
     public Adocao () {}
 
 
-    public Adocao(byte[] foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String contato, String nomeAnimal, Integer idadeEstimada,  EnumAndamentoAdocao statusAdocao) {
+    public Adocao(String foto, EnumTipoAnimal tipoAnimal, String descricao, Usuario usuarioCriador, String contato, String nomeAnimal, Integer idadeEstimada,  EnumAndamentoAdocao statusAdocao) {
         super(foto, tipoAnimal, descricao, usuarioCriador, contato);
         this.nomeAnimal = nomeAnimal;
         this.idadeEstimada = idadeEstimada;

@@ -61,7 +61,7 @@
 
                 <div id="uploadPlaceholder"
                      class="text-center"
-                     th:style="${denuncia.fotoBase64 != null} ? 'display:none;' : 'display:block;'">
+                     th:style="${denuncia.foto != null} ? 'display:none;' : 'display:block;'">
 
                     <i class="bi bi-image upload-icon"></i>
 
@@ -71,11 +71,11 @@
 
                 </div>
 
-                <img id="imagePreview"
-                     th:src="${denuncia.fotoBase64} != null ? 'data:image/jpeg;base64,' + ${denuncia.fotoBase64} : ''"
-                     alt="Preview"
+                <img th:src="${imagemDetalhe}"
+                     id="imagePreview"
                      class="upload-preview"
-                     th:style="${denuncia.fotoBase64} != null ? 'display:block;' : 'display:none;'">
+                     alt="Foto do Animal"
+                     th:style="${denuncia.foto != null} ? 'display:block;' : 'display:none;'">
 
                 <input type="file"
                        class="d-none"
@@ -95,7 +95,8 @@
 
                 <select class="form-select form-select-custom"
                         id="tipoAnimal"
-                        name="tipoAnimal">
+                        name="tipoAnimal"
+                        disabled>
 
                     <option th:each="tipo : ${T(com.example.AminalReport.entities.enums.EnumTipoAnimal).values()}"
                             th:value="${tipo}"
@@ -174,7 +175,7 @@
                                id="cep"
                                th:value="${denuncia.cep}"
                                maxlength="9"
-                               readonly>
+                               disabled>
 
                         <button class="btn btn-search-cep"
                                 type="button"
@@ -201,7 +202,7 @@
                            name="estado"
                            id="uf"
                            th:value="${denuncia.estado}"
-                           readonly>
+                           disabled>
 
                 </div>
 
@@ -221,7 +222,7 @@
                            name="municipio"
                            id="localidade"
                            th:value="${denuncia.municipio}"
-                           readonly>
+                           disabled>
 
                 </div>
 
@@ -237,7 +238,7 @@
                            name="bairro"
                            id="bairro"
                            th:value="${denuncia.bairro}"
-                           readonly>
+                           disabled>
 
                 </div>
 
@@ -255,7 +256,7 @@
                        name="rua"
                        id="logradouro"
                        th:value="${denuncia.rua}"
-                       readonly>
+                       disabled>
 
             </div>
 

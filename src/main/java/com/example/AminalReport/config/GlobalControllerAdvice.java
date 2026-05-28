@@ -25,7 +25,6 @@ public class GlobalControllerAdvice {
     @ModelAttribute
     public void adicionarUsuarioGlobal(Model model, Principal principal) {
 
-        // Se não tiver ninguém logado, não faz nada (o th:if da navbar cuida do resto)
         if (principal == null) {
             return;
         }
@@ -34,15 +33,21 @@ public class GlobalControllerAdvice {
         Usuario usuario = userRepository.findByEmail(email).orElse(null);
 
         if (usuario != null) {
-            // Adiciona o usuário no Model globalmente
             model.addAttribute("usuarioLogado", usuario);
 
-            // Lógica da Foto
-            if (usuario.getFoto() != null && usuario.getFoto().length > 0) {
-                String imagem = Base64.getEncoder().encodeToString(usuario.getFoto());
-                model.addAttribute("fotoPerfil", "data:image/jpeg;base64," + imagem);
+            if (usuario.getFoto() != null && !usuario.getFoto().isBlank()) {
+
+                model.addAttribute(
+                        "fotoPerfil",
+                        "/uploads/" + usuario.getFoto()
+                );
+
             } else {
-                model.addAttribute("fotoPerfil", "/images/perfilPadrao.jpg");
+
+                model.addAttribute(
+                        "fotoPerfil",
+                        "/images/perfilPadrao.jpg"
+                );
             }
         }
     }
