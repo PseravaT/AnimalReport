@@ -38,8 +38,21 @@ public class Organizacao extends Usuario{
         return cnpj;
     }
 
+    public String getCnpjFormatado() {
+
+        if (cnpj == null || cnpj.length() != 14) {
+            return cnpj;
+        }
+
+        return cnpj.replaceFirst(
+                "(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})",
+                "$1.$2.$3/$4-$5"
+        );
+
+    }
+
     public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
+        this.cnpj = cnpj.replaceAll("\\D", "");
     }
 
     public String getInscricaoEstadual() {

@@ -30,6 +30,19 @@ public class Comum extends Usuario{
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+        this.cpf = cpf = cpf.replaceAll("\\D", "");;
+    }
+
+    public String getCpfFormatado() {
+
+        if (cpf == null || cpf.length() != 11) {
+            return cpf;
+        }
+
+        return cpf.replaceFirst(
+                "(\\d{3})(\\d{3})(\\d{3})(\\d{2})",
+                "$1.$2.$3-$4"
+        );
+
     }
 }

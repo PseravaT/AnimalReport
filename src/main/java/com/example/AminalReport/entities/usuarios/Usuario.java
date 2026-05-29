@@ -82,8 +82,21 @@ public class Usuario implements UserDetails {
         return telefone;
     }
 
+    public String getTelefoneFormatado() {
+
+        if (telefone == null || telefone.length() != 11) {
+            return telefone;
+        }
+
+        return telefone.replaceFirst(
+                "(\\d{2})(\\d{5})(\\d{4})",
+                "($1) $2-$3"
+        );
+
+    }
+
     public void setTelefone(String telefone) {
-        this.telefone = telefone;
+        this.telefone = telefone.replaceAll("\\D", "");
     }
 
     public String getSenha() {

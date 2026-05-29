@@ -6,6 +6,7 @@ import com.example.AminalReport.entities.usuarios.Comum;
 import com.example.AminalReport.entities.usuarios.Organizacao;
 import com.example.AminalReport.entities.usuarios.Usuario;
 import com.example.AminalReport.service.UserService;
+import jakarta.persistence.Id;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -17,10 +18,13 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.ui.Model;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 import static java.util.regex.Pattern.matches;
@@ -169,5 +173,25 @@ public class LoginController {
 
 
         return "redirect:/entrar";
+    }
+
+    @GetMapping("/alterarUsuario/{id}")
+    public String alterarUsuario(@PathVariable Long id){
+
+        return "alterarUsuario";
+    }
+
+    @PostMapping("/alterarUsuario/{id}")
+    public String alterarUsuario(@PathVariable Long id,
+                                 @RequestParam(required = false) MultipartFile foto,
+                                 @RequestParam(required = false) String nome,
+                                 @RequestParam(required = false) String email,
+                                 @RequestParam(required = false) String telefone,
+                                 @RequestParam(required = false) String senha)
+            throws IOException {
+
+        userservice.alterarUsuario(id, foto, nome, email, telefone, senha);
+
+        return "redirect:/home";
     }
 }

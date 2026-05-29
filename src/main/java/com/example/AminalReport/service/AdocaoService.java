@@ -41,6 +41,10 @@ public class AdocaoService {
         if (adocao.isPresent()){
             if (foto != null && !foto.isEmpty()) {
 
+                if(adocao.get().getFoto() != null){
+                    uploadService.deletarImagem(adocao.get().getFoto());
+                }
+
                 String caminhoFoto = uploadService.salvarImagem(foto, "adocao");
 
                 adocao.get().setFoto(caminhoFoto);

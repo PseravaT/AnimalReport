@@ -10,14 +10,19 @@ function configurarToggleSenha(buttonId, inputId) {
         const tipoAtual = input.getAttribute('type');
 
         if (tipoAtual === 'password') {
+
             input.setAttribute('type', 'text');
             this.innerHTML = '<i class="bi bi-eye-slash"></i>';
+
         } else {
+
             input.setAttribute('type', 'password');
             this.innerHTML = '<i class="bi bi-eye"></i>';
+
         }
 
     });
+
 }
 
 configurarToggleSenha('togglePassword1', 'senha');
@@ -25,69 +30,124 @@ configurarToggleSenha('togglePassword2', 'confirmar_senha');
 
 
 
+
 const telefoneInput = document.getElementById('telefone');
+
+function aplicarMascaraTelefone(input) {
+
+    let valor = input.value.replace(/\D/g, '');
+
+    valor = valor.slice(0, 11);
+
+    valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
+    valor = valor.replace(/(\d{5})(\d)/, '$1-$2');
+
+    input.value = valor;
+
+}
 
 if (telefoneInput) {
 
-    telefoneInput.addEventListener('input', function (e) {
+    aplicarMascaraTelefone(telefoneInput);
 
-        let valor = e.target.value.replace(/\D/g, '');
+    telefoneInput.addEventListener('input', function () {
 
-
-        valor = valor.slice(0, 11);
-
-        valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
-        valor = valor.replace(/(\d{5})(\d)/, '$1-$2');
-
-        e.target.value = valor;
+        aplicarMascaraTelefone(this);
 
     });
 
 }
+
 
 
 
 const cpfInput = document.getElementById('cpf');
 
+function aplicarMascaraCpf(input) {
+
+    let valor = input.value.replace(/\D/g, '');
+
+    valor = valor.slice(0, 11);
+
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+
+    input.value = valor;
+
+}
+
 if (cpfInput) {
 
-    cpfInput.addEventListener('input', function (e) {
+    aplicarMascaraCpf(cpfInput);
 
-        let valor = e.target.value.replace(/\D/g, '');
+    cpfInput.addEventListener('input', function () {
 
-        valor = valor.slice(0, 11);
-
-        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-        valor = valor.replace(/(\d{3})(\d)/, '$1.$2');
-        valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
-
-        e.target.value = valor;
+        aplicarMascaraCpf(this);
 
     });
 
 }
+
+
 
 
 const cnpjInput = document.getElementById('cnpj');
 
+function aplicarMascaraCnpj(input) {
+
+    let valor = input.value.replace(/\D/g, '');
+
+    valor = valor.slice(0, 14);
+
+    valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
+    valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+    valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
+    valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+
+    input.value = valor;
+
+}
+
 if (cnpjInput) {
 
-    cnpjInput.addEventListener('input', function (e) {
+    aplicarMascaraCnpj(cnpjInput);
 
-        let valor = e.target.value.replace(/\D/g, '');
+    cnpjInput.addEventListener('input', function () {
 
-        valor = valor.slice(0, 14);
-
-        valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
-        valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
-        valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
-        valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
-
-        e.target.value = valor;
+        aplicarMascaraCnpj(this);
 
     });
 
 }
+
+
+
+
+const inscricaoEstadualInput = document.getElementById('inscricaoEstadual');
+
+function aplicarMascaraInscricaoEstadual(input) {
+
+    let valor = input.value.replace(/\D/g, '');
+
+    valor = valor.slice(0, 14);
+
+    input.value = valor;
+
+}
+
+if (inscricaoEstadualInput) {
+
+    aplicarMascaraInscricaoEstadual(inscricaoEstadualInput);
+
+    inscricaoEstadualInput.addEventListener('input', function () {
+
+        aplicarMascaraInscricaoEstadual(this);
+
+    });
+
+}
+
 
 
 
@@ -115,21 +175,35 @@ if (emailInput) {
 
     });
 
-    const inscricaoEstadualInput = document.getElementById('inscricaoEstadual');
+}
 
-    if (inscricaoEstadualInput) {
 
-        inscricaoEstadualInput.addEventListener('input', function (e) {
 
-            let valor = e.target.value.replace(/\D/g, '');
 
-            // LIMITE -> 14 números
-            valor = valor.slice(0, 14);
+const inputFoto = document.getElementById('foto');
+const previewFoto = document.getElementById('previewFoto');
 
-            e.target.value = valor;
+if (inputFoto && previewFoto) {
 
-        });
+    inputFoto.addEventListener('change', function (event) {
 
-    }
+        const arquivo = event.target.files[0];
+
+        if (arquivo) {
+
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+
+                previewFoto.src = e.target.result;
+                previewFoto.style.display = 'block';
+
+            };
+
+            reader.readAsDataURL(arquivo);
+
+        }
+
+    });
 
 }

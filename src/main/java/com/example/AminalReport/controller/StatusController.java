@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.Base64;
@@ -137,7 +138,7 @@ public class StatusController {
                                     @RequestParam(value = "descricao", required = false) String descricao,
                                     @RequestParam(value = "nivelUrgencia", required = false) EnumNivelUrgencia urgencia,
                                     @RequestParam(value = "pontoRef", required = false) String pontoRef,
-                                    @RequestParam(value = "foto", required = false) MultipartFile foto) {
+                                    @RequestParam(value = "foto", required = false) MultipartFile foto) throws IOException {
         Denuncia denuncia = denunciaService.buscarPorId(id)
                 .orElseThrow(() -> new IllegalArgumentException("Denúncia não encontrada: " + id));
 
@@ -156,7 +157,9 @@ public class StatusController {
         if (foto != null && !foto.isEmpty()) {
 
             try {
-
+                if(denuncia.getFoto() != null && !denuncia.getFoto().isBlank()) {
+                    uploadService.deletarImagem(denuncia.getFoto());
+                }
 
                 String caminhoFoto = uploadService.salvarImagem(foto, "denuncia");
 

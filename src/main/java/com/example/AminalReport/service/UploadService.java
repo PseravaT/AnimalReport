@@ -34,4 +34,16 @@ public class UploadService {
 
         return pasta + "/" + nomeArquivo;
     }
+
+    public void deletarImagem(String fotoPath) throws IOException {
+
+        if (fotoPath == null || fotoPath.isBlank()) {
+            return;
+        }
+
+        Path caminho = Paths.get("uploads")
+                .resolve(fotoPath);
+
+        Files.deleteIfExists(caminho);
+    }
 }

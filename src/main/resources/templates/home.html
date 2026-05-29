@@ -100,7 +100,7 @@
 
             </a>
 
-            <a th:if="${usuarioLogado == null or usuarioLogado.tipoUsuario == 'Comum'}"
+            <a th:if="${usuarioLogado != null}"
                th:href="@{/adocao/cadastrar}"
                class="custom-btn primary-btn">
 
@@ -108,7 +108,7 @@
 
             </a>
 
-            <a th:if="${usuarioLogado != null and usuarioLogado.tipoUsuario == 'Comum'}"
+            <a th:if="${usuarioLogado == null or usuarioLogado.tipoUsuario == 'Comum'}"
                th:href="@{/adocao/home}"
                class="custom-btn secondary-btn">
 

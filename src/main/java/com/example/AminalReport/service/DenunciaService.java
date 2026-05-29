@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional; // <--- Importante adicionar este import
+import java.util.Optional;
 
 @Service
 public class DenunciaService {
@@ -29,7 +29,7 @@ public class DenunciaService {
         return denunciaRepository.findById(id);
     }
 
-    public void editarDenuncia(Denuncia denuncia){
+    public void editarDenuncia(Denuncia denuncia) {
         Optional<Denuncia> denunciaOpt = denunciaRepository.findById(denuncia.getId());
 
         if (denunciaOpt.isPresent()) {

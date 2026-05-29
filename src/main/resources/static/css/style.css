@@ -1062,7 +1062,9 @@ body.body_login{
 }
 
 .form-control-custom:disabled,
-.form-select-custom:disabled  {
+.form-control:disabled,
+.form-select-custom:disabled,
+.form-select:disabled{
     background-color: #2b2b2b !important;
     color: #fff !important;
     opacity: 1 !important;
@@ -1782,4 +1784,31 @@ body{
     .carousel-image {
         height: 40vh;
     }
+}
+
+.user-dropdown-btn {
+    border: none;
+    background: transparent;
+    color: white;
+}
+
+.user-dropdown-btn:hover,
+.user-dropdown-btn:focus,
+.user-dropdown-btn:active {
+    background: transparent !important;
+    color: white !important;
+    box-shadow: none !important;
+}
+
+.custom-dropdown-menu {
+    border-radius: 12px;
+    padding: 0.5rem;
+    min-width: 220px;
+}
+
+.navbar-avatar img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
 }

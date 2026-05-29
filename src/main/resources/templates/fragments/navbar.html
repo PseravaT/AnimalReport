@@ -29,23 +29,67 @@
         <div class="d-flex ms-auto align-items-center gap-3">
 
             <!-- LOGADO -->
-            <div class="d-flex align-items-center gap-3"
+            <div class="dropdown"
                  th:if="${usuarioLogado != null}">
 
-                <span class="navbar-user-text"
-                      th:text="'Bem-vindo, ' + ${usuarioLogado.nome}">
-                    Bem-vindo, Usuário
-                </span>
+                <button class="btn dropdown-toggle d-flex align-items-center gap-2 user-dropdown-btn"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
 
-                <div class="navbar-avatar">
-                    <img th:src="${fotoPerfil != null ? fotoPerfil : '/images/perfilPadrao.jpg'}"
-                         alt="Perfil">
-                </div>
+                    <div class="navbar-avatar">
 
-                <a th:href="@{/logout}"
-                   class="btn btn-sm app-btn-danger">
-                    Sair
-                </a>
+                        <img th:src="${fotoPerfil != null ? fotoPerfil : '/images/perfilPadrao.jpg'}"
+                             alt="Perfil">
+
+                    </div>
+
+                    <span class="navbar-user-text"
+                          th:text="${usuarioLogado.nome}">
+                        Usuário
+                    </span>
+
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu">
+
+                    <li>
+
+                        <a class="dropdown-item"
+                           th:href="@{/entrar}">
+
+                            Trocar usuário
+
+                        </a>
+
+                    </li>
+
+                    <li>
+
+                        <a class="dropdown-item"
+                           th:href="@{/alterarUsuario/{id}(id=${usuarioLogado.id})}">
+
+                            Alterar usuário
+
+                        </a>
+
+                    </li>
+
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+
+                        <a class="dropdown-item text-danger"
+                           th:href="@{/logout}">
+
+                            Sair
+
+                        </a>
+
+                    </li>
+
+                </ul>
+
             </div>
 
             <!-- DESLOGADO -->
